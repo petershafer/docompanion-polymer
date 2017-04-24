@@ -223,11 +223,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           self.sectionUpdated = (new Date()).getTime();
         });
         page('/item/:item', function(ctx){
-          self.item = ctx.params.item;
-          var item = shortcuts.getItem(self.item);
-          self.section = item.parent.id;
-          console.log(self.section);
-          self.handler = "item";
+          shortcuts.databaseLoaded().then(() => {
+            self.item = ctx.params.item;
+            var item = shortcuts.getItem(self.item);
+            self.section = item.parent.id;
+            console.log(self.section);
+            self.handler = "item";
+          });
         });
         page('/page/:page', function(ctx){
           self.page = ctx.params.page;

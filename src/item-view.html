@@ -56,9 +56,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _pageChanged(page) {
-        this.data = shortcuts.getItem(this.item);
-        this.context = shortcuts.itemContext(this.item);
-        actions.readItem(this.item);
+        shortcuts.databaseLoaded().then(() => {
+          this.data = shortcuts.getItem(this.item);
+          this.context = shortcuts.itemContext(this.item);
+          actions.readItem(this.item);
+        });
       }
 
 

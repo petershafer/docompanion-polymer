@@ -85,10 +85,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       connectedCallback() {
-        super.connectedCallback();
-        var self = this;
-        this.subscription = plux.subscribe("shared", function(state) { self._pageChanged() });
-
+        shortcuts.databaseLoaded().then(() => {
+          super.connectedCallback();
+          var self = this;
+          this.subscription = plux.subscribe("shared", function(state) { self._pageChanged() });
+        });
       }
 
       disconnectedCallback() {
@@ -97,11 +98,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _pageChanged(page) {
-        console.log("Reloading the data!!!");
-        if(this.section){
-          this.data = shortcuts.getSection(this.section);
-          this.items = this.data.items;
-        }
+        shortcuts.databaseLoaded().then(() => {
+          console.log("Reloading the data!!!");
+          if(this.section){
+            this.data = shortcuts.getSection(this.section);
+            this.items = this.data.items;
+          }
+        });
       }
 
       unread(item) {
