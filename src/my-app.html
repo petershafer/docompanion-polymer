@@ -1,0 +1,278 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<!-- <link rel="import" href="../bower_components/app-route/app-location.html"> -->
+<!-- <link rel="import" href="../bower_components/app-route/app-route.html"> -->
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-badge/paper-badge.html">
+<link rel="import" href="../bower_components/paper-badge/paper-badge.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="my-icons.html">
+
+<link rel="import" href="../src/page-viewer.html">
+<link rel="import" href="../src/section-view.html">
+<link rel="import" href="../src/item-view.html">
+<link rel="import" href="../src/cover-page.html">
+<link rel="import" href="../src/conditional-class.html">
+
+<script src="../bower_components/page/page.js"></script>
+<script src="../bower_components/plux/src/plux.js"></script>
+<script src="../src/app/store.js"></script>
+<script src="../src/app/actions.js"></script>
+<script src="../src/app/shortcuts.js"></script>
+
+<dom-module id="my-app">
+  <template>
+    <style>
+      :host {
+        --app-primary-color: #4285f4;
+        --app-secondary-color: black;
+
+        display: block;
+      }
+
+      app-drawer-layout:not([narrow]) [drawer-toggle] {
+        display: none;
+      }
+
+      app-header {
+        color: #fff;
+        background-color: var(--app-primary-color);
+      }
+
+      app-header paper-icon-button {
+        --paper-icon-button-ink-color: white;
+      }
+
+      .drawer-list {
+        margin: 0 20px;
+      }
+
+      .drawer-list a {
+        display: block;
+        padding: 0 16px;
+        text-decoration: none;
+        color: var(--app-secondary-color);
+        line-height: 40px;
+      }
+
+      .drawer-list a.iron-selected {
+        color: black;
+        font-weight: bold;
+      }
+
+      span.menu {
+        display: inline-block;
+        padding-right:10px;
+      }
+
+      span.menu paper-badge {
+        margin-top:10px;
+        margin-left:-10px;
+      }
+
+      .selected a {
+        font-weight: bold;
+      }
+
+    </style>
+
+    <!-- <app-location route="{{route}}"></app-location> -->
+    <!-- <app-route
+        route="{{route}}"
+        pattern="/"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route> -->
+
+    <app-drawer-layout fullbleed>
+      <!-- Drawer content -->
+      <app-drawer id="drawer" slot="drawer">
+        <app-toolbar>Menu</app-toolbar>
+        <!-- <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+          <a name="my-view1" href="/page/my-view1">View One</a>
+          <a name="my-view2" href="/page/my-view2">View Two</a>
+          <a name="my-view3" href="/page/my-view3">View Three</a>
+          <a name="my-view4" href="/item/ABCD">View Three</a>
+          <a name="my-view4" href="/item/EFGH">View Three</a>
+          <a name="my-view4" href="/item/IJKL">View Three</a>
+        </iron-selector> -->
+        <!-- <iron-selector selected="[[section]]" attr-for-selected="name" class="drawer-list" role="navigation"> -->
+        <iron-selector class="drawer-list" role="navigation">
+          <conditional-class if="[[handler]]" is="cover" then="selected">
+            <a name="cover-page" href="/">Home</a>
+          </conditional-class>
+          <template is="dom-repeat" items="{{sections}}">
+            <conditional-class if="[[section]]" is="[[item.id]]" then="selected">
+              <div style="display:inline-block">
+                <span class="menu"><a href="/section/{{item.id}}">{{item.name}}</a> <paper-badge label="{{item.unread}}"></paper-badge></span>
+              </div>
+            </conditional-class>
+          </template>
+        </iron-selector>
+      </app-drawer>
+
+      <!-- Main content -->
+      <app-header-layout id="hasScroll">
+
+        <app-header slot="header" condenses reveals effects="waterfall">
+          <app-toolbar>
+            <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
+            <div main-title>The Rats in the Walls</div>
+          </app-toolbar>
+        </app-header>
+
+        <!-- <iron-pages
+            id="pageView"
+            selected="[[handler]]"
+            attr-for-selected="name"
+            fallback-selection="view404"
+            role="main">
+          
+        </iron-pages> -->
+
+        <template is="dom-if" if="{{ eq(handler, 'cover') }}" restamp>
+          <cover-page name="cover"></cover-page>
+        </template>
+        <template is="dom-if" if="{{ eq(handler, 'section') }}" restamp>
+          <section-view name="section" section="[[section]]" id="sectionView" updated="[[ sectionUpdated ]]"></section-view>
+        </template>
+        <template is="dom-if" if="{{ eq(handler, 'item') }}" restamp>
+          <item-view name="item" item="[[item]]"></item-view>
+        </template>
+        <template is="dom-if" if="{{ eq(handler, 'page') }}" restamp>
+          <page-viewer name="page" page="[[page]]"></page-viewer>
+        </template>
+
+
+      </app-header-layout>
+    </app-drawer-layout>
+  </template>
+
+  <script>
+    class MyApp extends Polymer.Element {
+
+      static get is() { return 'my-app'; }
+
+      static get observers() {
+        return [
+          '_routePageChanged(routeData)',
+        ];
+      }
+
+      static get properties() {
+        return {
+          handler: {
+            type: String,
+            reflectToAttribute: false
+          }
+        };
+      }
+
+      eq(a,b) {
+        console.log(a);
+        console.log(b);
+        console.log("-=-=-=-=-=-=-=-=");
+        return a == b;
+      }
+
+      update(state) {
+        console.log("The state has been changed!");
+        console.log(state);
+        console.log(shortcuts.getCounts());
+        if(state.databaseReady){
+          this.sections = shortcuts.getSections();
+        }
+        if(state.databaseReady){
+          var unreadCounts = shortcuts.getCounts();
+          for(var i = 0; i < this.sections.length; i++){
+            this.sections[i].unread = unreadCounts[this.sections[i].id];
+          }
+        }
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+
+        var self = this;
+        page(function(ctx, next){
+          document.body.scrollTop = 0;
+          if (!self.$.drawer.persistent) {
+            self.$.drawer.close();
+          }
+          next();
+        });
+        page('/section/:section', function(ctx){
+          self.section = ctx.params.section;
+          self.handler = "section";
+          self.sectionUpdated = (new Date()).getTime();
+        });
+        page('/item/:item', function(ctx){
+          self.item = ctx.params.item;
+          var item = shortcuts.getItem(self.item);
+          self.section = item.parent.id;
+          console.log(self.section);
+          self.handler = "item";
+        });
+        page('/page/:page', function(ctx){
+          self.page = ctx.params.page;
+          self.section = null;
+          self.handler = "page";
+        });
+        page('/', function(ctx){
+          self.section = null;
+          self.handler = 'cover';
+        });
+        page();
+
+        console.log('my-app created!');
+        var self = this;
+        this.subscription = plux.subscribe("shared", function(state) { self.update(state) });
+        actions.loadDatabase();
+        shortcuts.databaseLoaded().then(() => actions.debugAddAll());
+      }
+
+      disconnectedCallback() {
+        super.disconnectedCallback();
+        console.log('my-app destroyed!');
+        this.subscription.unsubscribe();
+      }
+
+      // _routePageChanged(page) {
+      //   // Polymer 2.0 will call with `undefined` on initialization.
+      //   // Ignore until we are properly called with a string.
+      //   if (page === undefined) {
+      //     return;
+      //   }
+
+      //   // If no page was found in the route data, page will be an empty string.
+      //   // Deault to 'view1' in that case.
+      //   this.page = page || 'cover-page';
+
+      //   // Close a non-persistent drawer when the page & route are changed.
+      //   if (!this.$.drawer.persistent) {
+      //     this.$.drawer.close();
+      //   }
+      //   // page();
+      // }
+
+    }
+
+    window.customElements.define(MyApp.is, MyApp);
+  </script>
+</dom-module>

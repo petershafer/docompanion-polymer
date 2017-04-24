@@ -1,0 +1,71 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="page-viewer">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+    </style>
+
+    <iron-pages
+        selected="[[page]]"
+        attr-for-selected="name"
+        fallback-selection="view404"
+        role="main">
+      <my-view1 name="my-view1"></my-view1>
+      <my-view2 name="my-view2"></my-view2>
+      <my-view3 name="my-view3"></my-view3>
+      <my-view404 name="view404"></my-view404>
+    </iron-pages>
+    
+  </template>
+
+  <script>
+    class PageViewer extends Polymer.Element {
+      static get is() { return 'page-viewer'; }
+
+      static get properties() {
+        return {
+          page: {
+            type: String,
+            reflectToAttribute: false,
+            observer: '_pageChanged',
+          }
+        };
+      }
+
+      _pageChanged(page) {
+        // Load page import on demand. Show 404 page if fails
+        var resolvedPageUrl = this.resolveUrl(this.page + '.html');
+        this.active = page;
+        Polymer.importHref(
+            resolvedPageUrl,
+            null,
+            this._showPage404.bind(this),
+            true);
+      }
+
+
+      _showPage404() {
+        this.page = 'view404';
+      }
+
+
+    }
+
+    window.customElements.define(PageViewer.is, PageViewer);
+  </script>
+</dom-module>

@@ -1,0 +1,305 @@
+{
+  "version": 1.0,
+  "content": {
+    "sections": 
+    [
+      {
+        "name": "Part I",
+        "id": "R9AB",
+        "unread": 0,
+        "items": [
+          {
+            "id": "E7K8",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "BXD8",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "BZX8",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "EROE",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "EQNE",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "EAYE",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "BGYB",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "EWY8",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "B3ZB",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "8968",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "E67B",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "EPJE",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "ELPB",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "8DV8",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "84QB",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "B5PB",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "EKLB",
+            "read": false,
+            "available": false
+          }
+        ]
+      },{
+        "name": "Part II",
+        "id": "KWJR",
+        "unread": 0,
+        "items": [
+          {
+            "id": "8OGE",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "BJLE",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "EN3E",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "EYL8",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "BVYB",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "8M58",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "E29Y",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "E7KK",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "BX9D",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "BZQX",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "ERWO",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "EQ9N",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "EAJY",
+            "read": false,
+            "available": false
+          }
+        ]
+      },{
+        "name": "Part III",
+        "id": "KJOR",
+        "unread": 0,
+        "items": [
+          {
+            "id": "BG6Y",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "EW3Y",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "B36Z",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "89N6",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "E6W7",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "EPAJ",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "EL9P",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "8DPV",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "84NQ",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "B5NP",
+            "read": false,
+            "available": false
+          }
+        ]
+      },{
+        "name": "Part IV",
+        "id": "R39R",
+        "unread": 0,
+        "items": [
+          {
+            "id": "EKML",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "8OLG",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "BJ2L",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "ENW3",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "EYYL",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "BVOY",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "8M95",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "E26Y",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "E7ZK",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "BXDD",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "BZ5X",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "ERYO",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "EQON",
+            "read": false,
+            "available": false
+          },
+          {
+            "id": "EAQY",
+            "read": false,
+            "available": false
+          }
+        ]
+      }
+    ],
+    "lastSection": "",
+    "lastItem": ""
+  }
+}

@@ -1,0 +1,124 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="section-view">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+      li {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      /*.entryLink {
+        padding:10px;
+      }
+      .entryLink:nth-child(odd) {
+        background-color: #c0c0c0;
+        color: inherit;
+        text-decoration: none;
+      }*/
+      .paper-item-link:nth-child(odd)>.item {
+        background-color: #dfdfdf;
+      }
+      .paper-item-link {
+        color: inherit;
+        text-decoration: none;
+      }
+      .item {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis!important;
+        padding: 16px;
+        border-radius: 5px;
+      }
+
+      .dimmed {
+        color: #c0c0c0!important;
+      }
+    </style>
+
+    <h1>{{data.name}}</h1>
+
+    <div class="card">
+      <template is="dom-repeat" id="resultList" items="{{items}}" filter="isAvailable">
+          <a class="paper-item-link" href="/item/{{item.id}}" tabindex="-1">
+            <div class$="{{readStyle(item)}}">
+              {{item.content}}
+            </div>
+          </a>
+      </template>
+    </div>
+    
+  </template>
+
+  <script>
+    class SectionView extends Polymer.Element {
+      static get is() { return 'section-view'; }
+
+      static get properties() {
+        return {
+          section: {
+            type: String,
+            reflectToAttribute: false,
+            observer: '_pageChanged'
+          },
+          updated: {
+            type: String,
+            reflectToAttribute: false,
+            observer: '_pageChanged',
+          }
+        };
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+        var self = this;
+        this.subscription = plux.subscribe("shared", function(state) { self._pageChanged() });
+
+      }
+
+      disconnectedCallback() {
+        super.disconnectedCallback();
+        this.subscription.unsubscribe();
+      }
+
+      _pageChanged(page) {
+        console.log("Reloading the data!!!");
+        if(this.section){
+          this.data = shortcuts.getSection(this.section);
+          this.items = this.data.items;
+        }
+      }
+
+      unread(item) {
+        return !item.read;
+      }
+
+      readStyle(item) {
+        return item.read ? "item dimmed" : "item";
+      }
+
+      isAvailable(item) {
+        return item.available;
+      }
+
+
+    }
+
+    window.customElements.define(SectionView.is, SectionView);
+  </script>
+</dom-module>

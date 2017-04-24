@@ -1,0 +1,69 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="item-view">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+    </style>
+
+    <a href="/section/{{ data.parent.id }}"><h1>Return to {{ data.parent.name }}</h1></a>
+
+    <div class="card">
+      {{data.content}}
+    </div>
+
+    <div style="float: left;">
+      <a href="/{{ context.prev.type }}/{{ context.prev.id }}"><h1>Go To Previous Item</h1></a>
+    </div>
+
+    <div style="float: right;">
+      <a href="/{{ context.next.type }}/{{ context.next.id }}"><h1>Go To Next Item</h1></a>
+    </div>
+    
+  </template>
+
+  <script>
+    class ItemView extends Polymer.Element {
+      static get is() { return 'item-view'; }
+
+      static get properties() {
+        return {
+          item: {
+            type: String,
+            reflectToAttribute: false,
+            observer: '_pageChanged',
+          },
+          lastupdated: {
+            type: String,
+            reflectToAttribute: false,
+            observer: '_pageChanged',
+          }
+        };
+      }
+
+      _pageChanged(page) {
+        this.data = shortcuts.getItem(this.item);
+        this.context = shortcuts.itemContext(this.item);
+        actions.readItem(this.item);
+      }
+
+
+    }
+
+    window.customElements.define(ItemView.is, ItemView);
+  </script>
+</dom-module>
