@@ -22,7 +22,8 @@
     "paper-badge": "PolymerElements/paper-badge#2.0-preview",
     "page": "visionmedia/page.js#^1.7.1",
     "paper-item": "PolymerElements/paper-item#2.0-preview",
-    "paper-toggle-button": "PolymerElements/paper-toggle-button#2.0-preview"
+    "paper-toggle-button": "PolymerElements/paper-toggle-button#2.0-preview",
+    "iron-label": "PolymerElements/iron-label#2.0-preview"
   },
   "resolutions": {
     "polymer": "^2.0.0-rc.1"

@@ -23,14 +23,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         overflow: hidden;
         text-overflow: ellipsis;
       }
-      /*.entryLink {
-        padding:10px;
-      }
-      .entryLink:nth-child(odd) {
-        background-color: #c0c0c0;
-        color: inherit;
-        text-decoration: none;
-      }*/
       .paper-item-link:nth-child(odd)>.item {
         background-color: #dfdfdf;
       }
@@ -49,31 +41,56 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .dimmed {
         color: #c0c0c0!important;
       }
+
+      iron-label span, iron-label paper-toggle-button {
+        display: inline-block;
+        vertical-align: top;
+      }
+
+      iron-label span {
+        margin-right: 10px;
+      }
     </style>
 
-    <div style="float:right; margin:20px;"><paper-toggle-button checked="{{ unreadOnly }}">Unread Only</paper-toggle-button></div>
+    <div style="float:right; margin:20px;">
+      <iron-label>
+        <template is="dom-if" if="{{ unreadOnly }}">
+          <span>Unread Only</span>
+        </template>
+        <template is="dom-if" if="{{ not(unreadOnly) }}">
+          <span>All Items</span>
+        </template>
+        <paper-toggle-button checked="{{ unreadOnly }}" id="unreadToggle" on-change="_unreadFilterUpdate"></paper-toggle-button>
+      </iron-label>
+    </div>
     <h1>{{data.name}}</h1>
 
     <template is="dom-if" if="{{ unreadOnly }}">
       <div class="card">
-        <template is="dom-repeat" id="resultList" items="{{items}}" filter="isUnread">
+        <template is="dom-repeat" id="resultList" items="{{items}}" filter="isUnread" rendered-item-count="{{ unreadCount }}">
             <a class="paper-item-link" href="/item/{{item.id}}" tabindex="-1">
               <div class$="{{readStyle(item)}}">
                 {{item.content}}
               </div>
             </a>
         </template>
+        <template is="dom-if" if="{{ not(unreadCount) }}">
+          <h2>All items read!</h2>
+        </template>
       </div>
     </template>
     
     <template is="dom-if" if="{{ not(unreadOnly) }}">
       <div class="card">
-        <template is="dom-repeat" id="resultList" items="{{items}}" filter="isAvailable">
+        <template is="dom-repeat" id="resultList" items="{{items}}" filter="isAvailable" rendered-item-count="{{ allCount }}">
             <a class="paper-item-link" href="/item/{{item.id}}" tabindex="-1">
               <div class$="{{readStyle(item)}}">
                 {{item.content}}
               </div>
             </a>
+        </template>
+        <template is="dom-if" if="{{ not(allCount) }}">
+          <h2>No items available.</h2>
         </template>
       </div>
     </template>
@@ -95,17 +112,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             type: String,
             reflectToAttribute: false,
             observer: '_pageChanged',
-          },
-          unreadOnly: {
-            type: Boolean,
-            observer: '_unreadFilterUpdate'
           }
         };
       }
 
       connectedCallback() {
         this.unreadOnly = false;
-        this.listenForFilterChanges = false;
         var self = this;
         shortcuts.databaseLoaded().then(() => {
           super.connectedCallback();
@@ -113,7 +125,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.subscription = plux.subscribe("shared", function(state) { self._pageChanged(state) });
           var state = plux.getState("shared");
           self.unreadOnly = state.database.settings.onlyUnread;
-          self.listenForFilterChanges = true;
         });
       }
 
@@ -135,13 +146,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         });
       }
 
-      _unreadFilterUpdate(newVal, oldVal) {
-        console.log("Updating unreadOnly to be " + newVal);
-        if(this.listenForFilterChanges){
-          shortcuts.databaseLoaded().then(() => {
-            actions.updateFilter(newVal);
-          });
-        }
+      _unreadFilterUpdate() {
+        var newVal = this.$.unreadToggle.checked;
+        shortcuts.databaseLoaded().then(() => {
+          actions.updateFilter(newVal);
+        });
       }
 
       isUnread(item) {
