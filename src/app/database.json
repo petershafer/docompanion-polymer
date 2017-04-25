@@ -1,5 +1,8 @@
 {
   "version": 1.0,
+  "settings": {
+    "onlyUnread": false
+  },
   "content": {
     "sections": 
     [

@@ -12,6 +12,7 @@ var actions = (function(){
         'addItem': plux.createAction("addItem"),
         'nextItem': plux.createAction("nextItem"),
         'nextUnread': plux.createAction("nextUnread"),
+        'updateFilter': plux.createAction("updateFilter"),
         'debugReset': plux.createAction("debugReset"),
         'debugAddAll': plux.createAction("debugAddAll"),
         'debugAddSection': plux.createAction("debugAddSection"),

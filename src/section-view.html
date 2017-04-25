@@ -51,17 +51,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
 
+    <div style="float:right; margin:20px;"><paper-toggle-button checked="{{ unreadOnly }}">Unread Only</paper-toggle-button></div>
     <h1>{{data.name}}</h1>
 
-    <div class="card">
-      <template is="dom-repeat" id="resultList" items="{{items}}" filter="isAvailable">
-          <a class="paper-item-link" href="/item/{{item.id}}" tabindex="-1">
-            <div class$="{{readStyle(item)}}">
-              {{item.content}}
-            </div>
-          </a>
-      </template>
-    </div>
+    <template is="dom-if" if="{{ unreadOnly }}">
+      <div class="card">
+        <template is="dom-repeat" id="resultList" items="{{items}}" filter="isUnread">
+            <a class="paper-item-link" href="/item/{{item.id}}" tabindex="-1">
+              <div class$="{{readStyle(item)}}">
+                {{item.content}}
+              </div>
+            </a>
+        </template>
+      </div>
+    </template>
+    
+    <template is="dom-if" if="{{ not(unreadOnly) }}">
+      <div class="card">
+        <template is="dom-repeat" id="resultList" items="{{items}}" filter="isAvailable">
+            <a class="paper-item-link" href="/item/{{item.id}}" tabindex="-1">
+              <div class$="{{readStyle(item)}}">
+                {{item.content}}
+              </div>
+            </a>
+        </template>
+      </div>
+    </template>
     
   </template>
 
@@ -80,15 +95,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             type: String,
             reflectToAttribute: false,
             observer: '_pageChanged',
+          },
+          unreadOnly: {
+            type: Boolean,
+            observer: '_unreadFilterUpdate'
           }
         };
       }
 
       connectedCallback() {
+        this.unreadOnly = false;
+        this.listenForFilterChanges = false;
+        var self = this;
         shortcuts.databaseLoaded().then(() => {
           super.connectedCallback();
           var self = this;
-          this.subscription = plux.subscribe("shared", function(state) { self._pageChanged() });
+          this.subscription = plux.subscribe("shared", function(state) { self._pageChanged(state) });
+          var state = plux.getState("shared");
+          self.unreadOnly = state.database.settings.onlyUnread;
+          self.listenForFilterChanges = true;
         });
       }
 
@@ -97,9 +122,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.subscription.unsubscribe();
       }
 
-      _pageChanged(page) {
+      _pageChanged(state) {
+        var self = this;
         shortcuts.databaseLoaded().then(() => {
-          console.log("Reloading the data!!!");
+          if(state.database){
+            self.unreadOnly = state.database.settings.onlyUnread;
+          }
           if(this.section){
             this.data = shortcuts.getSection(this.section);
             this.items = this.data.items;
@@ -107,8 +135,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         });
       }
 
+      _unreadFilterUpdate(newVal, oldVal) {
+        console.log("Updating unreadOnly to be " + newVal);
+        if(this.listenForFilterChanges){
+          shortcuts.databaseLoaded().then(() => {
+            actions.updateFilter(newVal);
+          });
+        }
+      }
+
+      isUnread(item) {
+        return item.available && !item.read;
+      }
+
       unread(item) {
         return !item.read;
+      }
+
+      not(val) {
+        return !val;
       }
 
       readStyle(item) {

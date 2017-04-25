@@ -93,6 +93,10 @@
                     }
                 }
                 break;
+            case "updateFilter":
+                var filter = data;
+                state.database.settings.onlyUnread = filter;
+                break;
             // case "debugAddRandom":
             //     break;
         }
