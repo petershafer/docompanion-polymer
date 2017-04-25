@@ -75,30 +75,40 @@ var shortcuts = (function(){
                 'next': {'type': null, 'id': null},
                 'parent': {'type': 'section', 'id': null, 'name': null}
             };
+            var unreadOnly = state.database.settings.onlyUnread;
+            var filteredLists = {};
             for(var i = 0; i < state.database.content.sections.length; i++){
                 var section = state.database.content.sections[i];
-                var filtered = section.items.filter((item) => item.available);
-                state.database.content.sections[i].items = filtered;
+                var filtered = section.items.filter((item) => {
+                    if(unreadOnly){
+                        return item.available && !item.read;
+                    }else{
+                        return item.available;
+                    }
+                });
+                // state.database.content.sections[i].items = filtered;
+                filteredLists[section.id] = filtered;
             }
             for(var i = 0; i < state.database.content.sections.length; i++){
                 var section = state.database.content.sections[i];
-                for(var j = 0; j < section.items.length; j++){
-                    var item = section.items[j];
+                var list = filteredLists[section.id];
+                for(var j = 0; j < list.length; j++){
+                    var item = list[j];
                     // Find Prev
                     if(item.id == id && j == 0){
                         context.prev.type = "section";
                         context.prev.id = section.id;
                     }else if(item.id == id){
                         context.prev.type = "item";
-                        context.prev.id = section.items[j-1].id;
+                        context.prev.id = list[j-1].id;
                     }
                     // Find Next
-                    if(item.id == id && j + 1 == section.items.length && i + 1 < state.database.content.sections.length){
+                    if(item.id == id && j + 1 == list.length && i + 1 < state.database.content.sections.length){
                         context.next.type = "section";
                         context.next.id = state.database.content.sections[i+1].id;
-                    }else if(item.id == id && j + 1 < section.items.length){
+                    }else if(item.id == id && j + 1 < list.length){
                         context.next.type = "item";
-                        context.next.id = section.items[j+1].id;
+                        context.next.id = list[j+1].id;
                     }
                     // Add parent info
                     if(item.id == id){
