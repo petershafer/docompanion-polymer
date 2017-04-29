@@ -26,6 +26,20 @@ var shortcuts = (function(){
             }
             return sections;
         },
+        'getBookmarks': function() {
+            var data = plux.getState("shared");
+            var bookmarks = [];
+            for(var i = 0; i < data.database.content.sections.length; i++){
+                bookmarks = bookmarks.concat(data.database.content.sections[i].items.filter(function(item){
+                    return item.bookmark;
+                }));
+            }
+            bookmarks = bookmarks.map(function(item){
+                item.content = data.content[item.id];
+                return item;
+            });
+            return bookmarks;
+        },
         'getItem': function(id) {
             var state = plux.getState("shared");
             var section = state.database.content.sections.filter(function(s){
