@@ -82,7 +82,7 @@ var shortcuts = (function(){
                 }
             });
         },
-        'itemContext': function(id) {
+        'itemContext': function(id, specialFilter) {
             var state = plux.getState("shared");
             var context = {
                 'prev': {'type': null, 'id': null},
@@ -94,10 +94,14 @@ var shortcuts = (function(){
             for(var i = 0; i < state.database.content.sections.length; i++){
                 var section = state.database.content.sections[i];
                 var filtered = section.items.filter((item) => {
-                    if(unreadOnly){
-                        return item.available && !item.read;
+                    if(specialFilter){
+                        return item.available && item[specialFilter];
                     }else{
-                        return item.available;
+                        if(unreadOnly){
+                            return item.available && !item.read;
+                        }else{
+                            return item.available;
+                        }
                     }
                 });
                 // state.database.content.sections[i].items = filtered;
