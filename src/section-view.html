@@ -136,7 +136,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _pageChanged(state) {
         var self = this;
         shortcuts.databaseLoaded().then(() => {
-          if(state.database){
+          if(state && state.database){
             self.unreadOnly = state.database.settings.onlyUnread;
           }
           if(this.section){
