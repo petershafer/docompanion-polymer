@@ -13,6 +13,7 @@ var actions = (function(){
         'nextItem': plux.createAction("nextItem"),
         'nextUnread': plux.createAction("nextUnread"),
         'updateFilter': plux.createAction("updateFilter"),
+        'bookmark': plux.createAction("bookmark"),
         'debugReset': plux.createAction("debugReset"),
         'debugAddAll': plux.createAction("debugAddAll"),
         'debugAddSection': plux.createAction("debugAddSection"),
