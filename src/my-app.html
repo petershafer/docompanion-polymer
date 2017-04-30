@@ -25,6 +25,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-badge/paper-badge.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../bower_components/paper-progress/paper-progress.html">
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="my-icons.html">
 
@@ -94,28 +96,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-weight: bold;
       }
 
-    </style>
+      app-drawer paper-spinner {
+        margin-left: 16px;
+      }
 
-    <!-- <app-location route="{{route}}"></app-location> -->
-    <!-- <app-route
-        route="{{route}}"
-        pattern="/"
-        data="{{routeData}}"
-        tail="{{subroute}}"></app-route> -->
+    </style>
 
     <app-drawer-layout fullbleed>
       <!-- Drawer content -->
       <app-drawer id="drawer" slot="drawer">
         <app-toolbar>Menu</app-toolbar>
-        <!-- <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="my-view1" href="/page/my-view1">View One</a>
-          <a name="my-view2" href="/page/my-view2">View Two</a>
-          <a name="my-view3" href="/page/my-view3">View Three</a>
-          <a name="my-view4" href="/item/ABCD">View Three</a>
-          <a name="my-view4" href="/item/EFGH">View Three</a>
-          <a name="my-view4" href="/item/IJKL">View Three</a>
-        </iron-selector> -->
-        <!-- <iron-selector selected="[[section]]" attr-for-selected="name" class="drawer-list" role="navigation"> -->
         <iron-selector class="drawer-list" role="navigation">
           <conditional-class if="[[handler]]" is="cover" then="selected">
             <a name="cover-page" href="/">Home</a>
@@ -123,12 +113,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <conditional-class if="[[page]]" is="bookmarks" then="selected">
             <a name="bookmarks" href="/page/bookmarks">Bookmarks</a>
           </conditional-class>
-          <template is="dom-repeat" items="{{sections}}">
-            <conditional-class if="[[section]]" is="[[item.id]]" then="selected">
-              <div style="display:inline-block">
-                <span class="menu"><a href="/section/{{item.id}}">{{item.name}}</a> <paper-badge label="{{item.unread}}"></paper-badge></span>
-              </div>
-            </conditional-class>
+          <template is="dom-if" if="{{ databaseReady }}">
+            <template is="dom-repeat" items="{{sections}}">
+              <conditional-class if="[[section]]" is="[[item.id]]" then="selected">
+                <div style="display:inline-block">
+                  <span class="menu"><a href="/section/{{item.id}}">{{item.name}}</a> <paper-badge label="{{item.unread}}"></paper-badge></span>
+                </div>
+              </conditional-class>
+            </template>
+          </template>
+          <template is="dom-if" if="{{ not(databaseReady) }}">
+            <paper-spinner active></paper-spinner>
           </template>
         </iron-selector>
       </app-drawer>
@@ -142,15 +137,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <div main-title>The Rats in the Walls</div>
           </app-toolbar>
         </app-header>
-
-        <!-- <iron-pages
-            id="pageView"
-            selected="[[handler]]"
-            attr-for-selected="name"
-            fallback-selection="view404"
-            role="main">
-          
-        </iron-pages> -->
 
         <template is="dom-if" if="{{ eq(handler, 'cover') }}" restamp>
           <cover-page name="cover"></cover-page>
@@ -191,17 +177,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       eq(a,b) {
-        console.log(a);
-        console.log(b);
-        console.log("-=-=-=-=-=-=-=-=");
         return a == b;
       }
 
+      not(val) {
+        return !val;
+      }
+
       update(state) {
-        console.log("The state has been changed!");
-        console.log(state);
-        console.log(shortcuts.getCounts());
         if(state.databaseReady){
+          this.databaseReady = true;
           this.sections = shortcuts.getSections();
         }
         if(state.databaseReady){
@@ -257,6 +242,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         console.log('my-app created!');
         var self = this;
         this.subscription = plux.subscribe("shared", function(state) { self.update(state) });
+        this.databaseReady = false;
         actions.loadDatabase();
         shortcuts.databaseLoaded().then(() => actions.debugAddAll());
       }

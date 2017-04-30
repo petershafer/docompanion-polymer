@@ -51,20 +51,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       iron-label span {
         margin-right: 10px;
       }
+      paper-progress {
+        display: block;
+        width: 100%;
+      }
     </style>
-    <h1>Your Bookmarks</h1>
-    <div class="card">
-      <template is="dom-repeat" id="resultList" items="{{items}}" filter="isAvailable" rendered-item-count="{{ allCount }}">
-          <a class="paper-item-link" href="/item/{{item.id}}?bookmark" tabindex="-1">
-            <div class="item">
-              {{item.content}}
-            </div>
-          </a>
-      </template>
-      <template is="dom-if" if="{{ not(allCount) }}">
-        <h2>No items available.</h2>
-      </template>
-    </div>
+
+    <template is="dom-if" if="{{ databaseReady }}">
+      <h1>Your Bookmarks</h1>
+      <div class="card">
+        <template is="dom-repeat" id="resultList" items="{{items}}" filter="isAvailable" rendered-item-count="{{ allCount }}">
+            <a class="paper-item-link" href="/item/{{item.id}}?bookmark" tabindex="-1">
+              <div class="item">
+                {{item.content}}
+              </div>
+            </a>
+        </template>
+        <template is="dom-if" if="{{ not(allCount) }}">
+          <h2>No items available.</h2>
+        </template>
+      </div>
+    </template>
+    <template is="dom-if" if="{{ not(databaseReady) }}">
+      <paper-progress indeterminate></paper-progress>
+    </template>
 
   </template>
 
@@ -73,8 +83,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       static get is() { return 'bookmarks-view'; }
 
       connectedCallback() {
+        this.databaseReady = false;
         shortcuts.databaseLoaded().then(() => {
           super.connectedCallback();
+          this.databaseReady = true;
           var self = this;
           this.subscription = plux.subscribe("shared", function(state) { self._pageChanged(state) });
           var state = plux.getState("shared");
