@@ -82,6 +82,28 @@ var shortcuts = (function(){
                 }
             });
         },
+        'percentComplete': function() {
+            var totals = {'grand': {'available': 0, 'unlocked': 0, 'read': 0}};
+            var state = plux.getState("shared");
+            state.database.content.sections.forEach(function(section){
+                var count = section.items.length;
+                var unlocked = section.items.filter((item) => item.available).length;
+                var read = section.items.filter((item) => item.available && item.read).length;
+                totals.grand.available += count;
+                totals.grand.unlocked += unlocked;
+                totals.grand.read += read;
+                totals[section.id] = {
+                    'available': count, 
+                    'unlocked': unlocked, 
+                    'read': read, 
+                    'percentUnlocked': Math.floor((unlocked/count)*100),
+                    'percentRead': Math.floor((read/count)*100)
+                };
+            });
+            totals.grand.percentUnlocked = Math.floor((totals.grand.unlocked/totals.grand.available)*100);
+            totals.grand.percentRead = Math.floor((totals.grand.read/totals.grand.available)*100);
+            return totals;
+        },
         'itemContext': function(id) {
             var state = plux.getState("shared");
             var context = {
