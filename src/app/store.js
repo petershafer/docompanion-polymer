@@ -66,6 +66,17 @@
                     }
                 }
                 break;
+            case "bookmark":
+                var code = data.item;
+                var value = data.value;
+                for(var i = 0; i < state.database.content.sections.length; i++){
+                    for(var j = 0; j < state.database.content.sections[i].items.length; j++){
+                        if(state.database.content.sections[i].items[j].id == code){
+                            state.database.content.sections[i].items[j].bookmark = value;
+                        }
+                    }
+                }
+                break;
             // case "nextItem":
             //     break;
             // case "nextUnread":

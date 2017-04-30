@@ -4,6 +4,8 @@
     "onlyUnread": false
   },
   "content": {
+    "lastSection": "",
+    "lastItem": "",
     "sections": 
     [
       {
@@ -14,62 +16,74 @@
           {
             "id": "E7K8",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "BXD8",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "BZX8",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "EROE",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "EQNE",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "EAYE",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "BGYB",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "EWY8",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "B3ZB",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "8968",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "E67B",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "EPJE",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "ELPB",
@@ -79,22 +93,26 @@
           {
             "id": "8DV8",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "84QB",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "B5PB",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "EKLB",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           }
         ]
       },{
@@ -105,67 +123,80 @@
           {
             "id": "8OGE",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "BJLE",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "EN3E",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "EYL8",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "BVYB",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "8M58",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "E29Y",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "E7KK",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "BX9D",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "BZQX",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "ERWO",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "EQ9N",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "EAJY",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           }
         ]
       },{
@@ -176,52 +207,62 @@
           {
             "id": "BG6Y",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "EW3Y",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "B36Z",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "89N6",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "E6W7",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "EPAJ",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "EL9P",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "8DPV",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "84NQ",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "B5NP",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           }
         ]
       },{
@@ -232,77 +273,89 @@
           {
             "id": "EKML",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "8OLG",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "BJ2L",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "ENW3",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "EYYL",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "BVOY",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "8M95",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "E26Y",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "E7ZK",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "BXDD",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "BZ5X",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "ERYO",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "EQON",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           },
           {
             "id": "EAQY",
             "read": false,
-            "available": false
+            "available": false,
+            "bookmark": false
           }
         ]
       }
-    ],
-    "lastSection": "",
-    "lastItem": ""
+    ]
   }
 }

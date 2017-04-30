@@ -18,21 +18,43 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         padding: 10px;
       }
+      paper-button.green {
+        background-color: var(--paper-grey-400);
+        color: white;
+      }
+      paper-button.green[active] {
+        background-color: var(--paper-blue-grey-600);
+      }
     </style>
 
-    <a href="/section/{{ data.parent.id }}"><h1>Return to {{ data.parent.name }}</h1></a>
+    <div style="float: left;">
+      <template is="dom-if" if="{{ not(bookmarkView) }}">
+        <a href="/section/{{ data.parent.id }}"><h1>Return to {{ data.parent.name }}</h1></a>
+      </template>
+      <template is="dom-if" if="{{ bookmarkView }}">
+        <a href="/page/bookmarks"><h1>Return to Bookmarks</h1></a>
+      </template>
+    </div>
+    <div style="float: right;">
+      <paper-button toggles class="green" active="{{ bookmarked }}"  on-change="_bookmarkUpdate">
+        <iron-icon icon="icons:bookmark-border"></iron-icon>
+        Bookmark
+      </paper-button>
+    </div>
 
-    <div class="card">
+    <div class="card" style="clear:both;">
       {{data.content}}
     </div>
 
-    <div style="float: left;">
-      <a href="/{{ context.prev.type }}/{{ context.prev.id }}"><h1>Go To Previous Item</h1></a>
-    </div>
 
-    <div style="float: right;">
-      <a href="/{{ context.next.type }}/{{ context.next.id }}"><h1>Go To Next Item</h1></a>
-    </div>
+    <template is="dom-if" if="{{ not(bookmarkView) }}">
+      <div style="float: left;">
+        <a href="/{{ context.prev.type }}/{{ context.prev.id }}"><h1>Go To Previous Item</h1></a>
+      </div>
+      <div style="float: right;">
+        <a href="/{{ context.next.type }}/{{ context.next.id }}"><h1>Go To Next Item</h1></a>
+      </div>
+    </template>
     
   </template>
 
@@ -56,14 +78,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _pageChanged(page) {
+        this.bookmarkView = location.search.slice(1) == "bookmark";
         shortcuts.databaseLoaded().then(() => {
           this.data = shortcuts.getItem(this.item);
           this.context = shortcuts.itemContext(this.item);
+          this.bookmarked = this.data.bookmark;
           actions.readItem(this.item);
         });
       }
 
+      _bookmarkUpdate() {
+        console.log(this.bookmarked);
+        actions.bookmark({'item': this.item, 'value': this.bookmarked});
+      }
 
+      bookmarkTag(bookmarkView) {
+        return bookmarkView ? "?bookmark" : "";
+      }
+
+      not(val) {
+        return !val;
+      }
     }
 
     window.customElements.define(ItemView.is, ItemView);
