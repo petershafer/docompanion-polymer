@@ -58,7 +58,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 
 
-    <template is="dom-if" if="{{ databaseReady }}">
+    <template is="dom-if" id="content" if="{{ databaseReady }}">
 
       <div style="float:right; margin:20px;">
         <iron-label>
@@ -71,7 +71,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <paper-toggle-button checked="{{ unreadOnly }}" id="unreadToggle" on-change="_unreadFilterUpdate"></paper-toggle-button>
         </iron-label>
       </div>
-      <h1>{{data.name}}</h1>
+      <h1>{{data.name}} <span class="smallCircle">{{ percent }}%</span></h1>
 
       <template is="dom-if" if="{{ unreadOnly }}">
         <div class="card">
@@ -157,12 +157,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           if(this.section){
             this.data = shortcuts.getSection(this.section);
             this.items = this.data.items;
+            this.percent = (shortcuts.percentComplete())[this.data.id].percentUnlocked;
           }
         });
       }
 
       _unreadFilterUpdate() {
-        var newVal = this.$.unreadToggle.checked;
+        var newVal = this.unreadOnly;
         shortcuts.databaseLoaded().then(() => {
           actions.updateFilter(newVal);
         });
