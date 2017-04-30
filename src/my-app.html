@@ -108,10 +108,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <app-toolbar>Menu</app-toolbar>
         <iron-selector class="drawer-list" role="navigation">
           <conditional-class if="[[handler]]" is="cover" then="selected">
-            <a name="cover-page" href="/">Home</a>
+            <a name="cover-page" href="/"><iron-icon icon="icons:home"></iron-icon> Home</a>
           </conditional-class>
           <conditional-class if="[[page]]" is="bookmarks" then="selected">
-            <a name="bookmarks" href="/page/bookmarks">Bookmarks</a>
+            <a name="bookmarks" href="/page/bookmarks"><iron-icon icon="icons:bookmark-border"></iron-icon> Bookmarks</a>
           </conditional-class>
           <template is="dom-if" if="{{ databaseReady }}">
             <template is="dom-repeat" items="{{sections}}">
