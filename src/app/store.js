@@ -77,6 +77,13 @@
                     }
                 }
                 break;
+            case "restoreDatabase":
+                console.log("LET'S DO A RESTORE");
+                state = data;
+                state.loadingDB = false;
+                state.databaseReady = true;
+                actions.loadComplete();
+                break;
             // case "nextItem":
             //     break;
             // case "nextUnread":

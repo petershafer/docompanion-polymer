@@ -2,6 +2,7 @@
 var actions = (function(){
     var API = {
         'loadDatabase': plux.createAction("loadDatabase"),
+        'restoreDatabase': plux.createAction("restoreDatabase"),
         'loadComplete': plux.createAction("loadComplete"),
         'getUnreadCount': plux.createAction("getUnreadCount"),
         'getSection': plux.createAction("getSection"),
