@@ -36,9 +36,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <template is="dom-if" if="{{ databaseReady }}">
 
       <div style="float: left;">
-        <template is="dom-if" if="{{ not(bookmarkView) }}">
+        <dom-if-not if="{{ bookmarkView }}">
           <a href="/section/{{ data.parent.id }}"><h1>Return to {{ data.parent.name }}</h1></a>
-        </template>
+        </dom-if-not>
         <template is="dom-if" if="{{ bookmarkView }}">
           <a href="/page/bookmarks"><h1>Return to Bookmarks</h1></a>
         </template>
@@ -55,7 +55,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
 
 
-      <template is="dom-if" if="{{ not(bookmarkView) }}">
+      <dom-if-not if="{{ bookmarkView }}">
         <template is="dom-if" if="{{ context.prev.id }}">
           <div style="float: left;">
             <a href="/{{ context.prev.type }}/{{ context.prev.id }}"><h1>Go To Previous Item</h1></a>
@@ -66,13 +66,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <a href="/{{ context.next.type }}/{{ context.next.id }}"><h1>Go To Next Item</h1></a>
           </div>
         </template>
-      </template>
+        </dom-if-not>
 
     </template>
 
-    <template is="dom-if" if="{{ not(databaseReady) }}">
+    <dom-if-not if="{{ databaseReady }}">
       <paper-progress indeterminate></paper-progress>
-    </template>
+    </dom-if-not>
     
   </template>
 
@@ -113,10 +113,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       bookmarkTag(bookmarkView) {
         return bookmarkView ? "?bookmark" : "";
-      }
-
-      not(val) {
-        return !val;
       }
     }
 

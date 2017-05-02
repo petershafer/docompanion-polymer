@@ -33,6 +33,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../src/item-view.html">
 <link rel="import" href="../src/cover-page.html">
 <link rel="import" href="../src/conditional-class.html">
+<link rel="import" href="../src/dom-if-not.html">
 
 <script src="../bower_components/page/page.js"></script>
 <script src="../bower_components/plux/src/plux.js"></script>
@@ -120,9 +121,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </conditional-class>
             </template>
           </template>
-          <template is="dom-if" if="{{ not(databaseReady) }}">
+          <dom-if-not if="{{ databaseReady }}">
             <paper-spinner active></paper-spinner>
-          </template>
+          </dom-if-not>
         </iron-selector>
       </app-drawer>
 
@@ -176,10 +177,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       eq(a,b) {
         return a == b;
-      }
-
-      not(val) {
-        return !val;
       }
 
       update(state) {

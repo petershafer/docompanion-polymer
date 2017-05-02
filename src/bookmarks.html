@@ -67,14 +67,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </div>
             </a>
         </template>
-        <template is="dom-if" if="{{ not(allCount) }}">
+        <dom-if-not if="{{ allCount }}">
           <h2>You haven't bookmarked anything yet.</h2>
-        </template>
+        </dom-if-not>
       </div>
     </template>
-    <template is="dom-if" if="{{ not(databaseReady) }}">
+    <dom-if-not if="{{ databaseReady }}">
       <paper-progress indeterminate></paper-progress>
-    </template>
+    </dom-if-not>
 
   </template>
 
@@ -103,10 +103,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         shortcuts.databaseLoaded().then(() => {
           self.items = shortcuts.getBookmarks();
         });
-      }
-
-      not(val) {
-        return !val;
       }
 
       isAvailable(item) {

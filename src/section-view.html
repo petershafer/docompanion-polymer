@@ -65,9 +65,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <template is="dom-if" if="{{ unreadOnly }}">
             <span>Unread Only</span>
           </template>
-          <template is="dom-if" if="{{ not(unreadOnly) }}">
+          <dom-if-not if="{{ unreadOnly }}">
             <span>All Items</span>
-          </template>
+          </dom-if-not>
           <paper-toggle-button checked="{{ unreadOnly }}" id="unreadToggle" on-change="_unreadFilterUpdate"></paper-toggle-button>
         </iron-label>
       </div>
@@ -82,13 +82,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </div>
               </a>
           </template>
-          <template is="dom-if" if="{{ not(unreadCount) }}">
+          <dom-if-not if="{{ unreadCount }}">
             <h2>All items read!</h2>
-          </template>
+          </dom-if-not>
         </div>
       </template>
       
-      <template is="dom-if" if="{{ not(unreadOnly) }}">
+      <dom-if-not if="{{ unreadOnly }}">
         <div class="card">
           <template is="dom-repeat" id="resultList" items="{{items}}" filter="isAvailable" rendered-item-count="{{ allCount }}">
               <a class="paper-item-link" href="/item/{{item.id}}" tabindex="-1">
@@ -97,15 +97,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </div>
               </a>
           </template>
-          <template is="dom-if" if="{{ not(allCount) }}">
+          <dom-if-not if="{{ allCount }}">
             <h2>No items available.</h2>
-          </template>
+          </dom-if-not>
         </div>
-      </template>
+      </dom-if-not>
     </template>
-    <template is="dom-if" if="{{ not(databaseReady) }}">
+    <dom-if-not if="{{ databaseReady }}">
       <paper-progress indeterminate></paper-progress>
-    </template>
+    </dom-if-not>
 
 
   </template>
@@ -175,10 +175,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       unread(item) {
         return !item.read;
-      }
-
-      not(val) {
-        return !val;
       }
 
       readStyle(item) {
