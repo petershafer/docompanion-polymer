@@ -1,4 +1,3 @@
-// A sample actions file.
 var shortcuts = (function(){
   var API = {
     'getCounts': function() {

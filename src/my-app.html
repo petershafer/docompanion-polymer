@@ -160,21 +160,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       static get is() { return 'my-app'; }
 
-      static get observers() {
-        return [
-          '_routePageChanged(routeData)',
-        ];
-      }
-
-      static get properties() {
-        return {
-          handler: {
-            type: String,
-            reflectToAttribute: false
-          }
-        };
-      }
-
       eq(a,b) {
         return a == b;
       }
@@ -236,7 +221,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         });
         page();
 
-        var self = this;
         this.subscription = plux.subscribe("shared", function(state) { self.update(state) });
         this.databaseReady = false;
 

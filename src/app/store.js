@@ -1,4 +1,3 @@
-// A sample store file.
 (function(){
   var myActionHandler = function(action, data, state){
     switch(action){
