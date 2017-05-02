@@ -57,7 +57,6 @@ var shortcuts = (function(){
         },
         'getSection': function(id) {
             var state = plux.getState("shared");
-            console.log(state);
             var section = state.database.content.sections.filter(function(s){
                 return s.id == id;
             }).shift();

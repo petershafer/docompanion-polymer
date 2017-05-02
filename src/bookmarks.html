@@ -99,12 +99,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _pageChanged(state) {
-        console.log("PROBLEMS AHOY");
-        console.log(state);
         var self = this;
         shortcuts.databaseLoaded().then(() => {
-            self.items = shortcuts.getBookmarks();
-            console.log(self.items);
+          self.items = shortcuts.getBookmarks();
         });
       }
 

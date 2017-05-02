@@ -227,7 +227,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             self.item = ctx.params.item;
             var item = shortcuts.getItem(self.item);
             self.section = item.parent.id;
-            console.log(self.section);
             self.handler = "item";
           });
         });
@@ -242,7 +241,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         });
         page();
 
-        console.log('my-app created!');
         var self = this;
         this.subscription = plux.subscribe("shared", function(state) { self.update(state) });
         this.databaseReady = false;
@@ -252,8 +250,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         if(rawStorage){
           persistentData = JSON.parse(localStorage.shared);
         }
-        console.log("Here's what persisted");
-        console.log(persistentData);
 
         if(persistentData){
           actions.restoreDatabase(persistentData);
@@ -266,27 +262,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       disconnectedCallback() {
         super.disconnectedCallback();
-        console.log('my-app destroyed!');
         this.subscription.unsubscribe();
       }
-
-      // _routePageChanged(page) {
-      //   // Polymer 2.0 will call with `undefined` on initialization.
-      //   // Ignore until we are properly called with a string.
-      //   if (page === undefined) {
-      //     return;
-      //   }
-
-      //   // If no page was found in the route data, page will be an empty string.
-      //   // Deault to 'view1' in that case.
-      //   this.page = page || 'cover-page';
-
-      //   // Close a non-persistent drawer when the page & route are changed.
-      //   if (!this.$.drawer.persistent) {
-      //     this.$.drawer.close();
-      //   }
-      //   // page();
-      // }
 
     }
 

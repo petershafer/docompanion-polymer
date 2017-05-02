@@ -10,16 +10,13 @@
                     var p1 = values[0].json();
                     var p2 = values[1].json();
                     Promise.all([p1, p2]).then(function(objs){
-                        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                         state.database = objs[0];
                         state.content = objs[1];
-                        console.log(objs);
                         actions.loadComplete();
                     });
                 });
                 break;
             case "restoreDatabase":
-                console.log("LET'S DO A RESTORE");
                 state.database = data.database;
                 state.content = data.content;
                 state.loadingDB = false;
@@ -27,12 +24,9 @@
                 actions.loadComplete();
                 break;
             case "loadComplete":
-                console.log("JUST FINISHED LOADING THE DB");
                 state.loadingDB = false;
                 state.databaseReady = true;
                 break;
-            // case "getSection":
-            //     break;
             case "readItem":
                 var code = data;
                 for(var i = 0; i < state.database.content.sections.length; i++){
@@ -46,8 +40,6 @@
                     }
                 }
                 break;
-            // case "getItem":
-            //     break;
             case "markSectionRead":
                 var code = data;
                 for(var i = 0; i < state.database.content.sections.length; i++){
@@ -59,10 +51,6 @@
                     }
                 }
                 break;
-            // case "openAddForm":
-            //     break;
-            // case "validateItems":
-            //     break;
             case "addItem":
                 var code = data;
                 for(var i = 0; i < state.database.content.sections.length; i++){
@@ -85,10 +73,6 @@
                     }
                 }
                 break;
-            // case "nextItem":
-            //     break;
-            // case "nextUnread":
-            //     break;
             case "debugReset":
                 actions.loadDatabase();
                 break;
@@ -97,7 +81,6 @@
                     for(var j = 0; j < state.database.content.sections[i].items.length; j++){
                         state.database.content.sections[i].items[j].available = true;
                         state.database.content.sections[i].unread++;
-                        console.log("Adding!");
                     }
                 }
                 break;
@@ -116,8 +99,6 @@
                 var filter = data;
                 state.database.settings.onlyUnread = filter;
                 break;
-            // case "debugAddRandom":
-            //     break;
         }
     };
     plux.createStore("shared", myActionHandler, { "databaseReady": false });    
