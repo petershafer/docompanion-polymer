@@ -18,6 +18,14 @@
                     });
                 });
                 break;
+            case "restoreDatabase":
+                console.log("LET'S DO A RESTORE");
+                state.database = data.database;
+                state.content = data.content;
+                state.loadingDB = false;
+                state.databaseReady = true;
+                actions.loadComplete();
+                break;
             case "loadComplete":
                 console.log("JUST FINISHED LOADING THE DB");
                 state.loadingDB = false;
