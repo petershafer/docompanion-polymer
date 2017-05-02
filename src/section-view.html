@@ -130,11 +130,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       connectedCallback() {
+        super.connectedCallback();
         this.unreadOnly = false;
         this.databaseReady = false;
         var self = this;
         shortcuts.databaseLoaded().then(() => {
-          super.connectedCallback();
           var self = this;
           this.databaseReady = true;
           this.subscription = plux.subscribe("shared", function(state) { self._pageChanged(state) });

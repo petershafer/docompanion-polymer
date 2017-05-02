@@ -83,13 +83,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       static get is() { return 'bookmarks-view'; }
 
       connectedCallback() {
+        super.connectedCallback();
         this.databaseReady = false;
         shortcuts.databaseLoaded().then(() => {
-          super.connectedCallback();
           this.databaseReady = true;
           var self = this;
           this.subscription = plux.subscribe("shared", function(state) { self._pageChanged(state) });
-          var state = plux.getState("shared");
         });
       }
 
