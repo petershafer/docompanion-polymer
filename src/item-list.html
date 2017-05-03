@@ -1,0 +1,117 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="item-list">
+  <template>
+    <style include="shared-styles">
+      li {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .paper-item-link:nth-child(odd)>.item {
+        background-color: #dfdfdf;
+      }
+      .paper-item-link {
+        color: inherit;
+        text-decoration: none;
+      }
+      .item {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis!important;
+        padding: 16px;
+        border-radius: 5px;
+      }
+
+      .dimmed {
+        color: #c0c0c0!important;
+      }
+    </style>
+
+    <div class="card">
+      <template is="dom-repeat" id="resultList" items="[[ items ]]" filter="filterFunction" rendered-item-count="{{ allCount }}">
+          <a class="paper-item-link" href="/item/[[ item.id ]][[ query ]]" tabindex="-1">
+            <div class$="[[ readStyle(item) ]]">
+              [[ item.content ]]
+            </div>
+          </a>
+      </template>
+      <dom-if-not if="[[ allCount ]]">
+        <h2>[[ emptyLabel ]]</h2>
+      </dom-if-not>
+    </div>
+
+  </template>
+
+  <script>
+    class ItemList extends Polymer.Element {
+      static get is() { return 'item-list'; }
+
+      static get properties() {
+        return {
+          items: {
+            type: Array,
+            reflectToAttribute: false
+          },
+          filter: {
+            type: String,
+            reflectToAttribute: false
+          },
+          query: {
+            type: String,
+            reflectToAttribute: false
+          },
+          emptyLabel: {
+            type: String,
+            reflectToAttribute: false
+          },
+          noStyles: {
+            type: Boolean,
+            reflectToAttribute: false
+          }
+        };
+      }
+
+      filterFunction(item) {
+        if(!this.filter){
+          return true;
+        }else if(this.filter == "unread"){
+          return this.isUnread(item);
+        }else if(this.filter == "available"){
+          return this.isAvailable(item);
+        }
+        return false;
+      }
+
+      isUnread(item) {
+        return item.available && !item.read;
+      }
+
+      isAvailable(item) {
+        return item.available;
+      }
+
+      readStyle(item) {
+        if(this.noStyles){
+          return "item";
+        }else{
+          return item.read ? "item dimmed" : "item";
+        }
+      }
+
+    }
+
+    window.customElements.define(ItemList.is, ItemList);
+  </script>
+</dom-module>

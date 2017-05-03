@@ -18,29 +18,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         padding: 10px;
       }
-      li {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .paper-item-link:nth-child(odd)>.item {
-        background-color: #dfdfdf;
-      }
-      .paper-item-link {
-        color: inherit;
-        text-decoration: none;
-      }
-      .item {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis!important;
-        padding: 16px;
-        border-radius: 5px;
-      }
-
-      .dimmed {
-        color: #c0c0c0!important;
-      }
 
       iron-label span, iron-label paper-toggle-button {
         display: inline-block;
@@ -57,56 +34,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
 
-
-    <template is="dom-if" id="content" if="{{ databaseReady }}">
+    <template is="dom-if" id="content" if="[[ databaseReady ]]">
 
       <div style="float:right; margin:20px;">
         <iron-label>
-          <template is="dom-if" if="{{ unreadOnly }}">
+          <template is="dom-if" if="[[ unreadOnly ]]">
             <span>Unread Only</span>
           </template>
-          <template is="dom-if" if="{{ not(unreadOnly) }}">
+          <dom-if-not if="[[ unreadOnly ]]">
             <span>All Items</span>
-          </template>
+          </dom-if-not>
           <paper-toggle-button checked="{{ unreadOnly }}" id="unreadToggle" on-change="_unreadFilterUpdate"></paper-toggle-button>
         </iron-label>
       </div>
-      <h1>{{data.name}} <span class="smallCircle">{{ percent }}%</span></h1>
-
-      <template is="dom-if" if="{{ unreadOnly }}">
-        <div class="card">
-          <template is="dom-repeat" id="resultList" items="{{items}}" filter="isUnread" rendered-item-count="{{ unreadCount }}">
-              <a class="paper-item-link" href="/item/{{item.id}}" tabindex="-1">
-                <div class$="{{readStyle(item)}}">
-                  {{item.content}}
-                </div>
-              </a>
-          </template>
-          <template is="dom-if" if="{{ not(unreadCount) }}">
-            <h2>All items read!</h2>
-          </template>
-        </div>
+      <h1>[[data.name]] <span class="smallCircle">[[ percent ]]%</span></h1>
+      <template is="dom-if" if="[[ unreadOnly ]]">
+        <item-list items="[[ items ]]" filter="unread" empty-label="All items read!"></item-list>
       </template>
-      
-      <template is="dom-if" if="{{ not(unreadOnly) }}">
-        <div class="card">
-          <template is="dom-repeat" id="resultList" items="{{items}}" filter="isAvailable" rendered-item-count="{{ allCount }}">
-              <a class="paper-item-link" href="/item/{{item.id}}" tabindex="-1">
-                <div class$="{{readStyle(item)}}">
-                  {{item.content}}
-                </div>
-              </a>
-          </template>
-          <template is="dom-if" if="{{ not(allCount) }}">
-            <h2>No items available.</h2>
-          </template>
-        </div>
-      </template>
+      <dom-if-not if="[[ unreadOnly ]]">
+        <item-list items="[[ items ]]" filter="available" empty-label="No items available."></item-list>
+      </dom-if-not>
     </template>
-    <template is="dom-if" if="{{ not(databaseReady) }}">
+    <dom-if-not if="[[ databaseReady ]]">
       <paper-progress indeterminate></paper-progress>
-    </template>
-
+    </dom-if-not>
 
   </template>
 
@@ -130,16 +81,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       connectedCallback() {
+        super.connectedCallback();
         this.unreadOnly = false;
         this.databaseReady = false;
-        var self = this;
         shortcuts.databaseLoaded().then(() => {
-          super.connectedCallback();
-          var self = this;
           this.databaseReady = true;
-          this.subscription = plux.subscribe("shared", function(state) { self._pageChanged(state) });
-          var state = plux.getState("shared");
-          self.unreadOnly = state.database.settings.onlyUnread;
+          this.subscription = plux.subscribe("shared", (state) => this._pageChanged(state));
+          let state = plux.getState("shared");
+          this.unreadOnly = state.database.settings.onlyUnread;
         });
       }
 
@@ -149,10 +98,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _pageChanged(state) {
-        var self = this;
         shortcuts.databaseLoaded().then(() => {
           if(state && state.database){
-            self.unreadOnly = state.database.settings.onlyUnread;
+            this.unreadOnly = state.database.settings.onlyUnread;
           }
           if(this.section){
             this.data = shortcuts.getSection(this.section);
@@ -163,7 +111,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _unreadFilterUpdate() {
-        var newVal = this.unreadOnly;
+        let newVal = this.unreadOnly;
         shortcuts.databaseLoaded().then(() => {
           actions.updateFilter(newVal);
         });
@@ -171,14 +119,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       isUnread(item) {
         return item.available && !item.read;
-      }
-
-      unread(item) {
-        return !item.read;
-      }
-
-      not(val) {
-        return !val;
       }
 
       readStyle(item) {

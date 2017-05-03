@@ -19,62 +19,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         padding: 10px;
       }
-      li {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .paper-item-link:nth-child(odd)>.item {
-        background-color: #dfdfdf;
-      }
-      .paper-item-link {
-        color: inherit;
-        text-decoration: none;
-      }
-      .item {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis!important;
-        padding: 16px;
-        border-radius: 5px;
-      }
-
-      .dimmed {
-        color: #c0c0c0!important;
-      }
-
-      iron-label span, iron-label paper-toggle-button {
-        display: inline-block;
-        vertical-align: top;
-      }
-
-      iron-label span {
-        margin-right: 10px;
-      }
       paper-progress {
         display: block;
         width: 100%;
       }
     </style>
 
-    <template is="dom-if" if="{{ databaseReady }}">
+    <template is="dom-if" if="[[ databaseReady ]]">
       <h1>Your Bookmarks</h1>
-      <div class="card">
-        <template is="dom-repeat" id="resultList" items="{{items}}" filter="isAvailable" rendered-item-count="{{ allCount }}">
-            <a class="paper-item-link" href="/item/{{item.id}}?bookmark" tabindex="-1">
-              <div class="item">
-                {{item.content}}
-              </div>
-            </a>
-        </template>
-        <template is="dom-if" if="{{ not(allCount) }}">
-          <h2>You haven't bookmarked anything yet.</h2>
-        </template>
-      </div>
+      <item-list items="[[ items ]]" filter="available" no-styles empty-label="You haven't bookmarked anything yet."></item-list>
     </template>
-    <template is="dom-if" if="{{ not(databaseReady) }}">
+    <dom-if-not if="[[ databaseReady ]]">
       <paper-progress indeterminate></paper-progress>
-    </template>
+    </dom-if-not>
 
   </template>
 
@@ -83,13 +40,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       static get is() { return 'bookmarks-view'; }
 
       connectedCallback() {
+        super.connectedCallback();
         this.databaseReady = false;
         shortcuts.databaseLoaded().then(() => {
-          super.connectedCallback();
           this.databaseReady = true;
-          var self = this;
-          this.subscription = plux.subscribe("shared", function(state) { self._pageChanged(state) });
-          var state = plux.getState("shared");
+          this.subscription = plux.subscribe("shared", (state) => this._pageChanged(state));
         });
       }
 
@@ -99,17 +54,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _pageChanged(state) {
-        console.log("PROBLEMS AHOY");
-        console.log(state);
-        var self = this;
         shortcuts.databaseLoaded().then(() => {
-            self.items = shortcuts.getBookmarks();
-            console.log(self.items);
+          this.items = shortcuts.getBookmarks();
         });
-      }
-
-      not(val) {
-        return !val;
       }
 
       isAvailable(item) {

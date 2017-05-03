@@ -15,8 +15,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
-<!-- <link rel="import" href="../bower_components/app-route/app-location.html"> -->
-<!-- <link rel="import" href="../bower_components/app-route/app-route.html"> -->
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-label/iron-label.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
@@ -33,8 +31,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../src/page-viewer.html">
 <link rel="import" href="../src/section-view.html">
 <link rel="import" href="../src/item-view.html">
+<link rel="import" href="../src/item-list.html">
 <link rel="import" href="../src/cover-page.html">
 <link rel="import" href="../src/conditional-class.html">
+<link rel="import" href="../src/dom-if-not.html">
 
 <script src="../bower_components/page/page.js"></script>
 <script src="../bower_components/plux/src/plux.js"></script>
@@ -107,24 +107,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <app-drawer id="drawer" slot="drawer">
         <app-toolbar>Menu</app-toolbar>
         <iron-selector class="drawer-list" role="navigation">
-          <conditional-class if="[[handler]]" is="cover" then="selected">
+          <conditional-class if="[[ handler ]]" is="cover" then="selected">
             <a name="cover-page" href="/"><iron-icon icon="icons:home"></iron-icon> Home</a>
           </conditional-class>
-          <conditional-class if="[[page]]" is="bookmarks" then="selected">
+          <conditional-class if="[[ page ]]" is="bookmarks" then="selected">
             <a name="bookmarks" href="/page/bookmarks"><iron-icon icon="icons:bookmark-border"></iron-icon> Bookmarks</a>
           </conditional-class>
-          <template is="dom-if" if="{{ databaseReady }}">
-            <template is="dom-repeat" items="{{sections}}">
-              <conditional-class if="[[section]]" is="[[item.id]]" then="selected">
+          <template is="dom-if" if="[[ databaseReady ]]">
+            <template is="dom-repeat" items="[[ sections ]]">
+              <conditional-class if="[[ section ]]" is="[[ item.id ]]" then="selected">
                 <div style="display:inline-block">
-                  <span class="menu"><a href="/section/{{item.id}}">{{item.name}}</a> <paper-badge label="{{item.unread}}"></paper-badge></span>
+                  <span class="menu"><a href="/section/[[ item.id ]]">[[ item.name ]]</a> <paper-badge label="[[ item.unread ]]"></paper-badge></span>
                 </div>
               </conditional-class>
             </template>
           </template>
-          <template is="dom-if" if="{{ not(databaseReady) }}">
+          <dom-if-not if="[[ databaseReady ]]">
             <paper-spinner active></paper-spinner>
-          </template>
+          </dom-if-not>
         </iron-selector>
       </app-drawer>
 
@@ -138,17 +138,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </app-toolbar>
         </app-header>
 
-        <template is="dom-if" if="{{ eq(handler, 'cover') }}" restamp>
+        <template is="dom-if" if="[[ eq(handler, 'cover') ]]" restamp>
           <cover-page name="cover"></cover-page>
         </template>
-        <template is="dom-if" if="{{ eq(handler, 'section') }}" restamp>
-          <section-view name="section" section="[[section]]" id="sectionView" updated="[[ sectionUpdated ]]"></section-view>
+        <template is="dom-if" if="[[ eq(handler, 'section') ]]" restamp>
+          <section-view name="section" section="[[ section ]]" id="sectionView" updated="[[ sectionUpdated ]]"></section-view>
         </template>
-        <template is="dom-if" if="{{ eq(handler, 'item') }}" restamp>
+        <template is="dom-if" if="[[ eq(handler, 'item') ]]" restamp>
           <item-view name="item" item="[[item]]"></item-view>
         </template>
-        <template is="dom-if" if="{{ eq(handler, 'page') }}" restamp>
-          <page-viewer name="page" page="[[page]]"></page-viewer>
+        <template is="dom-if" if="[[ eq(handler, 'page') ]]" restamp>
+          <page-viewer name="page" page="[[ page ]]"></page-viewer>
         </template>
 
 
@@ -161,27 +161,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       static get is() { return 'my-app'; }
 
-      static get observers() {
-        return [
-          '_routePageChanged(routeData)',
-        ];
-      }
-
-      static get properties() {
-        return {
-          handler: {
-            type: String,
-            reflectToAttribute: false
-          }
-        };
-      }
-
       eq(a,b) {
         return a == b;
-      }
-
-      not(val) {
-        return !val;
       }
 
       update(state) {
@@ -190,8 +171,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.sections = shortcuts.getSections();
         }
         if(state.databaseReady){
-          var unreadCounts = shortcuts.getCounts();
-          for(var i = 0; i < this.sections.length; i++){
+          let unreadCounts = shortcuts.getCounts();
+          for(let i = 0; i < this.sections.length; i++){
             this.sections[i].unread = unreadCounts[this.sections[i].id];
           }
         }
@@ -203,57 +184,51 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       connectedCallback() {
         super.connectedCallback();
 
-        var self = this;
-        page(function(ctx, next){
+        page((ctx, next) => {
           // Reset scroll
           document.body.scrollTop = 0;
           // Close the drawer
-          if (!self.$.drawer.persistent) {
-            self.$.drawer.close();
+          if (!this.$.drawer.persistent) {
+            this.$.drawer.close();
           }
           // Initialize variables.
-          self.page = null;
-          self.section = null;
+          this.page = null;
+          this.section = null;
           // Continue
           next();
         });
-        page('/section/:section', function(ctx){
-          self.section = ctx.params.section;
-          self.handler = "section";
-          self.sectionUpdated = (new Date()).getTime();
+        page('/section/:section', (ctx) => {
+          this.section = ctx.params.section;
+          this.handler = "section";
+          this.sectionUpdated = (new Date()).getTime();
         });
-        page('/item/:item', function(ctx){
+        page('/item/:item', (ctx) => {
           shortcuts.databaseLoaded().then(() => {
-            self.item = ctx.params.item;
-            var item = shortcuts.getItem(self.item);
-            self.section = item.parent.id;
-            console.log(self.section);
-            self.handler = "item";
+            this.item = ctx.params.item;
+            let item = shortcuts.getItem(this.item);
+            this.section = item.parent.id;
+            this.handler = "item";
           });
         });
-        page('/page/:page', function(ctx){
-          self.page = ctx.params.page;
-          self.section = null;
-          self.handler = "page";
+        page('/page/:page', (ctx) => {
+          this.page = ctx.params.page;
+          this.section = null;
+          this.handler = "page";
         });
-        page('/', function(ctx){
-          self.section = null;
-          self.handler = 'cover';
+        page('/', (ctx) => {
+          this.section = null;
+          this.handler = 'cover';
         });
         page();
 
-        console.log('my-app created!');
-        var self = this;
-        this.subscription = plux.subscribe("shared", function(state) { self.update(state) });
+        this.subscription = plux.subscribe("shared", (state) => this.update(state));
         this.databaseReady = false;
 
-        var rawStorage = localStorage.shared;
-        var persistentData;
+        let rawStorage = localStorage.shared;
+        let persistentData;
         if(rawStorage){
           persistentData = JSON.parse(localStorage.shared);
         }
-        console.log("Here's what persisted");
-        console.log(persistentData);
 
         if(persistentData){
           actions.restoreDatabase(persistentData);
@@ -266,27 +241,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       disconnectedCallback() {
         super.disconnectedCallback();
-        console.log('my-app destroyed!');
         this.subscription.unsubscribe();
       }
-
-      // _routePageChanged(page) {
-      //   // Polymer 2.0 will call with `undefined` on initialization.
-      //   // Ignore until we are properly called with a string.
-      //   if (page === undefined) {
-      //     return;
-      //   }
-
-      //   // If no page was found in the route data, page will be an empty string.
-      //   // Deault to 'view1' in that case.
-      //   this.page = page || 'cover-page';
-
-      //   // Close a non-persistent drawer when the page & route are changed.
-      //   if (!this.$.drawer.persistent) {
-      //     this.$.drawer.close();
-      //   }
-      //   // page();
-      // }
 
     }
 
