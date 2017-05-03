@@ -184,45 +184,44 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       connectedCallback() {
         super.connectedCallback();
 
-        let self = this;
-        page(function(ctx, next){
+        page((ctx, next) => {
           // Reset scroll
           document.body.scrollTop = 0;
           // Close the drawer
-          if (!self.$.drawer.persistent) {
-            self.$.drawer.close();
+          if (!this.$.drawer.persistent) {
+            this.$.drawer.close();
           }
           // Initialize variables.
-          self.page = null;
-          self.section = null;
+          this.page = null;
+          this.section = null;
           // Continue
           next();
         });
-        page('/section/:section', function(ctx){
-          self.section = ctx.params.section;
-          self.handler = "section";
-          self.sectionUpdated = (new Date()).getTime();
+        page('/section/:section', (ctx) => {
+          this.section = ctx.params.section;
+          this.handler = "section";
+          this.sectionUpdated = (new Date()).getTime();
         });
-        page('/item/:item', function(ctx){
+        page('/item/:item', (ctx) => {
           shortcuts.databaseLoaded().then(() => {
-            self.item = ctx.params.item;
-            let item = shortcuts.getItem(self.item);
-            self.section = item.parent.id;
-            self.handler = "item";
+            this.item = ctx.params.item;
+            let item = shortcuts.getItem(this.item);
+            this.section = item.parent.id;
+            this.handler = "item";
           });
         });
-        page('/page/:page', function(ctx){
-          self.page = ctx.params.page;
-          self.section = null;
-          self.handler = "page";
+        page('/page/:page', (ctx) => {
+          this.page = ctx.params.page;
+          this.section = null;
+          this.handler = "page";
         });
-        page('/', function(ctx){
-          self.section = null;
-          self.handler = 'cover';
+        page('/', (ctx) => {
+          this.section = null;
+          this.handler = 'cover';
         });
         page();
 
-        this.subscription = plux.subscribe("shared", function(state) { self.update(state) });
+        this.subscription = plux.subscribe("shared", (state) => this.update(state));
         this.databaseReady = false;
 
         let rawStorage = localStorage.shared;

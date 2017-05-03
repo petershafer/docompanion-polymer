@@ -29,11 +29,9 @@ var shortcuts = (function(){
       let data = plux.getState("shared");
       let bookmarks = [];
       for(let i = 0; i < data.database.content.sections.length; i++){
-        bookmarks = bookmarks.concat(data.database.content.sections[i].items.filter(function(item){
-          return item.bookmark;
-        }));
+        bookmarks = bookmarks.concat(data.database.content.sections[i].items.filter((item) => item.bookmark ));
       }
-      bookmarks = bookmarks.map(function(item){
+      bookmarks = bookmarks.map((item) => {
         item.content = data.content[item.id];
         return item;
       });
@@ -41,10 +39,8 @@ var shortcuts = (function(){
     },
     'getItem': function(id) {
       let state = plux.getState("shared");
-      let section = state.database.content.sections.filter(function(s){
-        let item = s.items.filter(function(i){
-          return i.id == id;
-        });
+      let section = state.database.content.sections.filter((s) => {
+        let item = s.items.filter((i) => i.id == id);
         return item.length > 0;
       }).pop();
       let item = section.items.filter((i) => i.id == id).pop();
@@ -56,10 +52,10 @@ var shortcuts = (function(){
     },
     'getSection': function(id) {
       let state = plux.getState("shared");
-      let section = state.database.content.sections.filter(function(s){
+      let section = state.database.content.sections.filter((s) => {
         return s.id == id;
       }).shift();
-      section.items = section.items.map(function(item){
+      section.items = section.items.map((item) => {
         item.content = state.content[item.id];
         return item;
       });
@@ -71,7 +67,7 @@ var shortcuts = (function(){
         if(state.databaseReady){
           resolve();
         }else{
-          let subscription = plux.subscribe("shared", function(state) { 
+          let subscription = plux.subscribe("shared", (state) => { 
             if(state.databaseReady){
               subscription.unsubscribe();
               resolve();
@@ -83,7 +79,7 @@ var shortcuts = (function(){
     'percentComplete': function() {
       let totals = {'grand': {'available': 0, 'unlocked': 0, 'read': 0}};
       let state = plux.getState("shared");
-      state.database.content.sections.forEach(function(section){
+      state.database.content.sections.forEach((section) => {
         let count = section.items.length;
         let unlocked = section.items.filter((item) => item.available).length;
         let read = section.items.filter((item) => item.available && item.read).length;

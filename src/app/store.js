@@ -6,14 +6,14 @@
         state.loadingDB = true;
         let p1 = fetch('/src/app/database.json');
         let p2 = fetch('/src/app/prettycontent.json');
-        Promise.all([p1, p2]).then(function(values) {
-            let p1 = values[0].json();
-            let p2 = values[1].json();
-            Promise.all([p1, p2]).then(function(objs){
-                state.database = objs[0];
-                state.content = objs[1];
-                actions.loadComplete();
-            });
+        Promise.all([p1, p2]).then((values) => {
+          let p1 = values[0].json();
+          let p2 = values[1].json();
+          Promise.all([p1, p2]).then((objs) => {
+            state.database = objs[0];
+            state.content = objs[1];
+            actions.loadComplete();
+          });
         });
         break;
       case "restoreDatabase":
