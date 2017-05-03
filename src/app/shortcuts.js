@@ -1,5 +1,14 @@
+// Shortcuts provide additional business logic needed to prepare data from
+// the state for consumption by the frontend.  No data is manipulated outside
+// of Plux, but these functions provide functionality that returns a value
+// since actions don't strictly do this, and the raw state isn't always
+// sufficient to determine how to act.  At the same time, this code only uses
+// the state for data - the frontend does not affect how shortcuts operate.
+// This eliminates duplicate code and consolidates it in a way that can be
+// used pure JS environment (cross-platform).
 var shortcuts = (function(){
   let API = {
+    // Consolidates unread counts per section into a list.
     'getCounts': function() {
       data = plux.getState("shared");
       if(!data.databaseReady){
@@ -11,6 +20,7 @@ var shortcuts = (function(){
       }
       return counts;
     },
+    // Consolidates section metadata into a simple list.
     'getSections': function() {
       data = plux.getState("shared");
       if(!data.databaseReady){
@@ -25,6 +35,7 @@ var shortcuts = (function(){
       }
       return sections;
     },
+    // Filters items that are bookmarked into a single list.
     'getBookmarks': function() {
       let data = plux.getState("shared");
       let bookmarks = [];
@@ -37,6 +48,7 @@ var shortcuts = (function(){
       });
       return bookmarks;
     },
+    // Retrieves item data and content as a single object.
     'getItem': function(id) {
       let state = plux.getState("shared");
       let section = state.database.content.sections.filter((s) => {
@@ -46,21 +58,22 @@ var shortcuts = (function(){
       let item = section.items.filter((i) => i.id == id).pop();
       return Object.assign({'parent': {'id': section.id, 'name': section.name}, 'content': data.content[id]}, item)
     },
+    // Retrieves content for a given item ID.
     'getContent': function(id) {
       data = plux.getState("shared");
       return data.content[id] || null;
     },
+    // Retrieves a section and populates each item with its content.
     'getSection': function(id) {
       let state = plux.getState("shared");
-      let section = state.database.content.sections.filter((s) => {
-        return s.id == id;
-      }).shift();
+      let section = state.database.content.sections.filter((s) => s.id == id).shift();
       section.items = section.items.map((item) => {
         item.content = state.content[item.id];
         return item;
       });
       return section;
     },
+    // Returns a promise that resolves when the database has been loaded.
     'databaseLoaded': function() {
       return new Promise((resolve, reject) => {
         let state = plux.getState("shared");
@@ -76,6 +89,7 @@ var shortcuts = (function(){
         }
       });
     },
+    // Calculates the percent of items unlocked and read per section.
     'percentComplete': function() {
       let totals = {'grand': {'available': 0, 'unlocked': 0, 'read': 0}};
       let state = plux.getState("shared");
@@ -98,6 +112,7 @@ var shortcuts = (function(){
       totals.grand.percentRead = Math.floor((totals.grand.read/totals.grand.available)*100);
       return totals;
     },
+    // Retrieves information about an items siblings and parent.
     'itemContext': function(id) {
       let state = plux.getState("shared");
       let context = {
