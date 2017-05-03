@@ -84,12 +84,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         super.connectedCallback();
         this.unreadOnly = false;
         this.databaseReady = false;
-        var self = this;
+        let self = this;
         shortcuts.databaseLoaded().then(() => {
-          var self = this;
+          let self = this;
           this.databaseReady = true;
           this.subscription = plux.subscribe("shared", function(state) { self._pageChanged(state) });
-          var state = plux.getState("shared");
+          let state = plux.getState("shared");
           self.unreadOnly = state.database.settings.onlyUnread;
         });
       }
@@ -100,7 +100,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _pageChanged(state) {
-        var self = this;
+        let self = this;
         shortcuts.databaseLoaded().then(() => {
           if(state && state.database){
             self.unreadOnly = state.database.settings.onlyUnread;
@@ -114,7 +114,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _unreadFilterUpdate() {
-        var newVal = this.unreadOnly;
+        let newVal = this.unreadOnly;
         shortcuts.databaseLoaded().then(() => {
           actions.updateFilter(newVal);
         });

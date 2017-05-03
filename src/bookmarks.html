@@ -44,7 +44,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.databaseReady = false;
         shortcuts.databaseLoaded().then(() => {
           this.databaseReady = true;
-          var self = this;
+          let self = this;
           this.subscription = plux.subscribe("shared", function(state) { self._pageChanged(state) });
         });
       }
@@ -55,7 +55,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _pageChanged(state) {
-        var self = this;
+        let self = this;
         shortcuts.databaseLoaded().then(() => {
           self.items = shortcuts.getBookmarks();
         });

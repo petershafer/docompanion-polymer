@@ -171,8 +171,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.sections = shortcuts.getSections();
         }
         if(state.databaseReady){
-          var unreadCounts = shortcuts.getCounts();
-          for(var i = 0; i < this.sections.length; i++){
+          let unreadCounts = shortcuts.getCounts();
+          for(let i = 0; i < this.sections.length; i++){
             this.sections[i].unread = unreadCounts[this.sections[i].id];
           }
         }
@@ -184,7 +184,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       connectedCallback() {
         super.connectedCallback();
 
-        var self = this;
+        let self = this;
         page(function(ctx, next){
           // Reset scroll
           document.body.scrollTop = 0;
@@ -206,7 +206,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         page('/item/:item', function(ctx){
           shortcuts.databaseLoaded().then(() => {
             self.item = ctx.params.item;
-            var item = shortcuts.getItem(self.item);
+            let item = shortcuts.getItem(self.item);
             self.section = item.parent.id;
             self.handler = "item";
           });
@@ -225,8 +225,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.subscription = plux.subscribe("shared", function(state) { self.update(state) });
         this.databaseReady = false;
 
-        var rawStorage = localStorage.shared;
-        var persistentData;
+        let rawStorage = localStorage.shared;
+        let persistentData;
         if(rawStorage){
           persistentData = JSON.parse(localStorage.shared);
         }
