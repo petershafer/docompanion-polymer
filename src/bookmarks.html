@@ -57,22 +57,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
 
-    <template is="dom-if" if="{{ databaseReady }}">
+    <template is="dom-if" if="[[ databaseReady ]]">
       <h1>Your Bookmarks</h1>
       <div class="card">
-        <template is="dom-repeat" id="resultList" items="{{items}}" filter="isAvailable" rendered-item-count="{{ allCount }}">
-            <a class="paper-item-link" href="/item/{{item.id}}?bookmark" tabindex="-1">
+        <template is="dom-repeat" id="resultList" items="[[ items ]]" filter="isAvailable" rendered-item-count="{{ allCount }}">
+            <a class="paper-item-link" href="/item/[[ item.id ]]?bookmark" tabindex="-1">
               <div class="item">
-                {{item.content}}
+                [[ item.content ]]
               </div>
             </a>
         </template>
-        <dom-if-not if="{{ allCount }}">
+        <dom-if-not if="[[ allCount ]]">
           <h2>You haven't bookmarked anything yet.</h2>
         </dom-if-not>
       </div>
     </template>
-    <dom-if-not if="{{ databaseReady }}">
+    <dom-if-not if="[[ databaseReady ]]">
       <paper-progress indeterminate></paper-progress>
     </dom-if-not>
 

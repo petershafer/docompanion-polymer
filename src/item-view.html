@@ -33,18 +33,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 
 
-    <template is="dom-if" if="{{ databaseReady }}">
+    <template is="dom-if" if="[[ databaseReady ]]">
 
       <div style="float: left;">
-        <dom-if-not if="{{ bookmarkView }}">
-          <a href="/section/{{ data.parent.id }}"><h1>Return to {{ data.parent.name }}</h1></a>
+        <dom-if-not if="[[ bookmarkView ]]">
+          <a href="/section/[[ data.parent.id ]]"><h1>Return to [[ data.parent.name ]]</h1></a>
         </dom-if-not>
-        <template is="dom-if" if="{{ bookmarkView }}">
+        <template is="dom-if" if="[[ bookmarkView ]]">
           <a href="/page/bookmarks"><h1>Return to Bookmarks</h1></a>
         </template>
       </div>
       <div style="float: right;">
-        <paper-button toggles class="green" active="{{ bookmarked }}"  on-change="_bookmarkUpdate">
+        <paper-button toggles class="green" active="[[ bookmarked ]]"  on-change="_bookmarkUpdate">
           <iron-icon icon="icons:bookmark-border"></iron-icon>
           Bookmark
         </paper-button>
@@ -55,22 +55,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
 
 
-      <dom-if-not if="{{ bookmarkView }}">
-        <template is="dom-if" if="{{ context.prev.id }}">
+      <dom-if-not if="[[ bookmarkView ]]">
+        <template is="dom-if" if="[[ context.prev.id ]]">
           <div style="float: left;">
-            <a href="/{{ context.prev.type }}/{{ context.prev.id }}"><h1>Go To Previous Item</h1></a>
+            <a href="/[[ context.prev.type ]]/[[ context.prev.id ]]"><h1>Go To Previous Item</h1></a>
           </div>
         </template>
-        <template is="dom-if" if="{{ context.next.id }}">
+        <template is="dom-if" if="[[ context.next.id ]]">
           <div style="float: right;">
-            <a href="/{{ context.next.type }}/{{ context.next.id }}"><h1>Go To Next Item</h1></a>
+            <a href="/[[ context.next.type ]]/[[ context.next.id ]]"><h1>Go To Next Item</h1></a>
           </div>
         </template>
         </dom-if-not>
 
     </template>
 
-    <dom-if-not if="{{ databaseReady }}">
+    <dom-if-not if="[[ databaseReady ]]">
       <paper-progress indeterminate></paper-progress>
     </dom-if-not>
     

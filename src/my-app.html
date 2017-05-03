@@ -106,22 +106,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <app-drawer id="drawer" slot="drawer">
         <app-toolbar>Menu</app-toolbar>
         <iron-selector class="drawer-list" role="navigation">
-          <conditional-class if="[[handler]]" is="cover" then="selected">
+          <conditional-class if="[[ handler ]]" is="cover" then="selected">
             <a name="cover-page" href="/"><iron-icon icon="icons:home"></iron-icon> Home</a>
           </conditional-class>
-          <conditional-class if="[[page]]" is="bookmarks" then="selected">
+          <conditional-class if="[[ page ]]" is="bookmarks" then="selected">
             <a name="bookmarks" href="/page/bookmarks"><iron-icon icon="icons:bookmark-border"></iron-icon> Bookmarks</a>
           </conditional-class>
-          <template is="dom-if" if="{{ databaseReady }}">
-            <template is="dom-repeat" items="{{sections}}">
-              <conditional-class if="[[section]]" is="[[item.id]]" then="selected">
+          <template is="dom-if" if="[[ databaseReady ]]">
+            <template is="dom-repeat" items="[[ sections ]]">
+              <conditional-class if="[[ section ]]" is="[[ item.id ]]" then="selected">
                 <div style="display:inline-block">
-                  <span class="menu"><a href="/section/{{item.id}}">{{item.name}}</a> <paper-badge label="{{item.unread}}"></paper-badge></span>
+                  <span class="menu"><a href="/section/[[ item.id ]]">[[ item.name ]]</a> <paper-badge label="[[ item.unread ]]"></paper-badge></span>
                 </div>
               </conditional-class>
             </template>
           </template>
-          <dom-if-not if="{{ databaseReady }}">
+          <dom-if-not if="[[ databaseReady ]]">
             <paper-spinner active></paper-spinner>
           </dom-if-not>
         </iron-selector>
@@ -137,17 +137,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </app-toolbar>
         </app-header>
 
-        <template is="dom-if" if="{{ eq(handler, 'cover') }}" restamp>
+        <template is="dom-if" if="[[ eq(handler, 'cover') ]]" restamp>
           <cover-page name="cover"></cover-page>
         </template>
-        <template is="dom-if" if="{{ eq(handler, 'section') }}" restamp>
-          <section-view name="section" section="[[section]]" id="sectionView" updated="[[ sectionUpdated ]]"></section-view>
+        <template is="dom-if" if="[[ eq(handler, 'section') ]]" restamp>
+          <section-view name="section" section="[[ section ]]" id="sectionView" updated="[[ sectionUpdated ]]"></section-view>
         </template>
-        <template is="dom-if" if="{{ eq(handler, 'item') }}" restamp>
+        <template is="dom-if" if="[[ eq(handler, 'item') ]]" restamp>
           <item-view name="item" item="[[item]]"></item-view>
         </template>
-        <template is="dom-if" if="{{ eq(handler, 'page') }}" restamp>
-          <page-viewer name="page" page="[[page]]"></page-viewer>
+        <template is="dom-if" if="[[ eq(handler, 'page') ]]" restamp>
+          <page-viewer name="page" page="[[ page ]]"></page-viewer>
         </template>
 
 

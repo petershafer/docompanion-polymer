@@ -58,52 +58,52 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 
 
-    <template is="dom-if" id="content" if="{{ databaseReady }}">
+    <template is="dom-if" id="content" if="[[ databaseReady ]]">
 
       <div style="float:right; margin:20px;">
         <iron-label>
-          <template is="dom-if" if="{{ unreadOnly }}">
+          <template is="dom-if" if="[[ unreadOnly ]]">
             <span>Unread Only</span>
           </template>
-          <dom-if-not if="{{ unreadOnly }}">
+          <dom-if-not if="[[ unreadOnly ]]">
             <span>All Items</span>
           </dom-if-not>
           <paper-toggle-button checked="{{ unreadOnly }}" id="unreadToggle" on-change="_unreadFilterUpdate"></paper-toggle-button>
         </iron-label>
       </div>
-      <h1>{{data.name}} <span class="smallCircle">{{ percent }}%</span></h1>
+      <h1>[[data.name]] <span class="smallCircle">[[ percent ]]%</span></h1>
 
-      <template is="dom-if" if="{{ unreadOnly }}">
+      <template is="dom-if" if="[[ unreadOnly ]]">
         <div class="card">
-          <template is="dom-repeat" id="resultList" items="{{items}}" filter="isUnread" rendered-item-count="{{ unreadCount }}">
-              <a class="paper-item-link" href="/item/{{item.id}}" tabindex="-1">
-                <div class$="{{readStyle(item)}}">
-                  {{item.content}}
+          <template is="dom-repeat" id="resultList" items="[[ items ]]" filter="isUnread" rendered-item-count="{{ unreadCount }}">
+              <a class="paper-item-link" href="/item/[[item.id]]" tabindex="-1">
+                <div class$="[[ readStyle(item) ]]">
+                  [[ item.content ]]
                 </div>
               </a>
           </template>
-          <dom-if-not if="{{ unreadCount }}">
+          <dom-if-not if="[[ unreadCount ]]">
             <h2>All items read!</h2>
           </dom-if-not>
         </div>
       </template>
       
-      <dom-if-not if="{{ unreadOnly }}">
+      <dom-if-not if="[[ unreadOnly ]]">
         <div class="card">
-          <template is="dom-repeat" id="resultList" items="{{items}}" filter="isAvailable" rendered-item-count="{{ allCount }}">
-              <a class="paper-item-link" href="/item/{{item.id}}" tabindex="-1">
+          <template is="dom-repeat" id="resultList" items="[[ items ]]" filter="isAvailable" rendered-item-count="[[ allCount ]]">
+              <a class="paper-item-link" href="/item/[[ item.id ]]" tabindex="-1">
                 <div class$="{{readStyle(item)}}">
                   {{item.content}}
                 </div>
               </a>
           </template>
-          <dom-if-not if="{{ allCount }}">
+          <dom-if-not if="[[ allCount ]]">
             <h2>No items available.</h2>
           </dom-if-not>
         </div>
       </dom-if-not>
     </template>
-    <dom-if-not if="{{ databaseReady }}">
+    <dom-if-not if="[[ databaseReady ]]">
       <paper-progress indeterminate></paper-progress>
     </dom-if-not>
 
