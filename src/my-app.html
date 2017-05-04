@@ -100,6 +100,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin-left: 16px;
       }
 
+      .debug {
+        border-top-style: solid;
+        border-top-color: #c0c0c0;
+        border-top-width: 1px;
+      }
+
+      .debug a {
+        color: #c0c0c0;
+      }
+
     </style>
 
     <app-drawer-layout fullbleed>
@@ -122,6 +132,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </conditional-class>
             </template>
           </template>
+          <span class="menu debug"><a href="/page/debug">Debug Options</a></span>
           <dom-if-not if="[[ databaseReady ]]">
             <paper-spinner active></paper-spinner>
           </dom-if-not>

@@ -1,3 +1,16 @@
+## Docompanion (Proof of Concept)
+
+Docompanion is an app designed using the Flux pattern to allow for secondary media to
+be consumed.  This secondary media might accompany a video game, movie, or even a book,
+and this app provides an interface to be able to access, track, and enjoy that secondary
+media.  In this proof of concept, the secondary contenet is actually primary content;
+a short story written by H.P. Lovecraft called The Rats in the Walls. It not a proper
+use case, but it provides a body of work that can be integrated with the application.
+
+All items in the database are added by default, but by visiting /pages/debug you
+can reset the database and perform other actions.  You can also just clear localStorage
+and refresh the page to trigger a fresh database being loaded.
+
 ### Setup
 
 ##### Prerequisites
