@@ -26,8 +26,17 @@ var shortcuts = (function(){
       if(!data.databaseReady){
         return [];
       }
-      const sections = data.database.content.sections;
-      return all ? sections : sections.filter((section) => section.show);
+      sections = [];
+      for(let i = 0; i < data.database.content.sections.length; i++){
+        if(data.database.content.sections[i].show){
+          sections.push({
+            "name": data.database.content.sections[i].name,
+            "id": data.database.content.sections[i].id,
+            "show": data.database.content.sections[i].show
+          });
+        }
+      }
+      return sections;
     },
     // Filters items that are bookmarked into a single list.
     'getBookmarks': function() {
