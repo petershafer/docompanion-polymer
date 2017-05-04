@@ -45,7 +45,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </template>
       </div>
       <div style="float: right;">
-        <paper-button toggles class="green" active="[[ bookmarked ]]"  on-change="_bookmarkUpdate">
+        <paper-button toggles class="green" active="{{ bookmarked }}"  on-change="_bookmarkUpdate">
           <iron-icon icon="icons:bookmark-border"></iron-icon>
           Bookmark
         </paper-button>
