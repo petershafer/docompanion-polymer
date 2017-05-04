@@ -12,6 +12,7 @@
         "name": "Part I",
         "id": "R9AB",
         "unread": 0,
+        "show": true,
         "items": [
           {
             "id": "E7K8",
@@ -119,6 +120,7 @@
         "name": "Part II",
         "id": "KWJR",
         "unread": 0,
+        "show": true,
         "items": [
           {
             "id": "8OGE",
@@ -203,6 +205,7 @@
         "name": "Part III",
         "id": "KJOR",
         "unread": 0,
+        "show": true,
         "items": [
           {
             "id": "BG6Y",
@@ -269,6 +272,7 @@
         "name": "Part IV",
         "id": "R39R",
         "unread": 0,
+        "show": true,
         "items": [
           {
             "id": "EKML",

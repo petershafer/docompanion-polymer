@@ -21,19 +21,13 @@ var shortcuts = (function(){
       return counts;
     },
     // Consolidates section metadata into a simple list.
-    'getSections': function() {
+    'getSections': function(all) {
       data = plux.getState("shared");
       if(!data.databaseReady){
         return [];
       }
-      sections = [];
-      for(let i = 0; i < data.database.content.sections.length; i++){
-        sections.push({
-          "name": data.database.content.sections[i].name,
-          "id": data.database.content.sections[i].id
-        });
-      }
-      return sections;
+      const sections = data.database.content.sections;
+      return all ? sections : sections.filter((section) => section.show);
     },
     // Filters items that are bookmarked into a single list.
     'getBookmarks': function() {
@@ -122,9 +116,10 @@ var shortcuts = (function(){
       };
       const unreadOnly = state.database.settings.onlyUnread;
       const filteredLists = {};
+      const filteredSections = state.database.content.sections.filter((section) => section.show);
       for(let i = 0; i < state.database.content.sections.length; i++){
-        let section = state.database.content.sections[i];
-        let filtered = section.items.filter((item) => {
+        const section = state.database.content.sections[i];
+        const filtered = section.items.filter((item) => {
           if(unreadOnly){
             return item.available && !item.read;
           }else{
@@ -133,8 +128,8 @@ var shortcuts = (function(){
         });
         filteredLists[section.id] = filtered;
       }
-      for(let i = 0; i < state.database.content.sections.length; i++){
-        const section = state.database.content.sections[i];
+      for(let i = 0; i < filteredSections.length; i++){
+        const section = filteredSections[i];
         const list = filteredLists[section.id];
         for(let j = 0; j < list.length; j++){
           const item = list[j];
@@ -147,9 +142,9 @@ var shortcuts = (function(){
             context.prev.id = list[j-1].id;
           }
           // Find Next
-          if(item.id == id && j + 1 == list.length && i + 1 < state.database.content.sections.length){
+          if(item.id == id && j + 1 == list.length && i + 1 < filteredSections.length){
             context.next.type = "section";
-            context.next.id = state.database.content.sections[i+1].id;
+            context.next.id = filteredSections[i+1].id;
           }else if(item.id == id && j + 1 < list.length){
             context.next.type = "item";
             context.next.id = list[j+1].id;
