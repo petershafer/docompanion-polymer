@@ -50,7 +50,7 @@ var shortcuts = (function(){
         return item.length > 0;
       }).pop();
       const item = section.items.filter((i) => i.id == id).pop();
-      return Object.assign({'parent': {'id': section.id, 'name': section.name}, 'content': data.content[id]}, item)
+      return Object.assign({'parent': {'id': section.id, 'name': section.name, 'show': section.show}, 'content': data.content[id]}, item)
     },
     // Retrieves content for a given item ID.
     'getContent': function(id) {
@@ -108,6 +108,7 @@ var shortcuts = (function(){
     },
     // Retrieves information about an items siblings and parent.
     'itemContext': function(id) {
+      const item = this.getItem(id);
       const state = plux.getState("shared");
       const context = {
         'prev': {'type': null, 'id': null},
@@ -116,7 +117,7 @@ var shortcuts = (function(){
       };
       const unreadOnly = state.database.settings.onlyUnread;
       const filteredLists = {};
-      const filteredSections = state.database.content.sections.filter((section) => section.show);
+      const filteredSections = state.database.content.sections.filter((section) => section.show || !item.parent.show);
       for(let i = 0; i < state.database.content.sections.length; i++){
         const section = state.database.content.sections[i];
         const filtered = section.items.filter((item) => {
