@@ -27,7 +27,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <template is="dom-if" if="[[ databaseReady ]]">
       <h1>Your Bookmarks</h1>
-      <item-list items="[[ items ]]" filter="available" no-styles empty-label="You haven't bookmarked anything yet."></item-list>
+      <item-list items="[[ items ]]" filter="available" query="bookmark" no-styles empty-label="You haven't bookmarked anything yet."></item-list>
     </template>
     <dom-if-not if="[[ databaseReady ]]">
       <paper-progress indeterminate></paper-progress>
