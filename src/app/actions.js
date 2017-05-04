@@ -1,5 +1,5 @@
 var actions = (function(){
-  let API = {
+  const API = {
     'loadDatabase': plux.createAction("loadDatabase"),
     'restoreDatabase': plux.createAction("restoreDatabase"),
     'loadComplete': plux.createAction("loadComplete"),

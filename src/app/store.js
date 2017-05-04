@@ -7,8 +7,8 @@
         let p1 = fetch('/src/app/database.json');
         let p2 = fetch('/src/app/prettycontent.json');
         Promise.all([p1, p2]).then((values) => {
-          let p1 = values[0].json();
-          let p2 = values[1].json();
+          const p1 = values[0].json();
+          const p2 = values[1].json();
           Promise.all([p1, p2]).then((objs) => {
             state.database = objs[0];
             state.content = objs[1];
@@ -64,7 +64,7 @@
         break;
       case "bookmark":
         code = data.item;
-        let value = data.value;
+        const value = data.value;
         for(let i = 0; i < state.database.content.sections.length; i++){
           for(let j = 0; j < state.database.content.sections[i].items.length; j++){
             if(state.database.content.sections[i].items[j].id == code){
@@ -96,7 +96,7 @@
         }
         break;
       case "updateFilter":
-        let filter = data;
+        const filter = data;
         state.database.settings.onlyUnread = filter;
         break;
     }

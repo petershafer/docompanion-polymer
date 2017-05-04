@@ -58,12 +58,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       addItem() {
-        let id = prompt("Please enter the ID of the item to add.");
+        const id = prompt("Please enter the ID of the item to add.");
         actions.addItem(id);
       }
 
       addSection() {
-        let id = prompt("");
+        const id = prompt("Please enter the ID of the section to add.");
         actions.debugAddSection(id);
       }
 

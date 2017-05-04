@@ -88,7 +88,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         shortcuts.databaseLoaded().then(() => {
           this.databaseReady = true;
           this.subscription = plux.subscribe("shared", (state) => this._pageChanged(state));
-          let state = plux.getState("shared");
+          const state = plux.getState("shared");
           this.unreadOnly = state.database.settings.onlyUnread;
         });
       }
@@ -112,7 +112,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _unreadFilterUpdate() {
-        let newVal = this.unreadOnly;
+        const newVal = this.unreadOnly;
         shortcuts.databaseLoaded().then(() => {
           actions.updateFilter(newVal);
         });

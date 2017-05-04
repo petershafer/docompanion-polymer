@@ -37,7 +37,7 @@ var shortcuts = (function(){
     },
     // Filters items that are bookmarked into a single list.
     'getBookmarks': function() {
-      let data = plux.getState("shared");
+      const data = plux.getState("shared");
       let bookmarks = [];
       for(let i = 0; i < data.database.content.sections.length; i++){
         bookmarks = bookmarks.concat(data.database.content.sections[i].items.filter((item) => item.bookmark ));
@@ -50,12 +50,12 @@ var shortcuts = (function(){
     },
     // Retrieves item data and content as a single object.
     'getItem': function(id) {
-      let state = plux.getState("shared");
-      let section = state.database.content.sections.filter((s) => {
+      const state = plux.getState("shared");
+      const section = state.database.content.sections.filter((s) => {
         let item = s.items.filter((i) => i.id == id);
         return item.length > 0;
       }).pop();
-      let item = section.items.filter((i) => i.id == id).pop();
+      const item = section.items.filter((i) => i.id == id).pop();
       return Object.assign({'parent': {'id': section.id, 'name': section.name}, 'content': data.content[id]}, item)
     },
     // Retrieves content for a given item ID.
@@ -65,8 +65,8 @@ var shortcuts = (function(){
     },
     // Retrieves a section and populates each item with its content.
     'getSection': function(id) {
-      let state = plux.getState("shared");
-      let section = state.database.content.sections.filter((s) => s.id == id).shift();
+      const state = plux.getState("shared");
+      const section = state.database.content.sections.filter((s) => s.id == id).shift();
       section.items = section.items.map((item) => {
         item.content = state.content[item.id];
         return item;
@@ -76,11 +76,11 @@ var shortcuts = (function(){
     // Returns a promise that resolves when the database has been loaded.
     'databaseLoaded': function() {
       return new Promise((resolve, reject) => {
-        let state = plux.getState("shared");
+        const state = plux.getState("shared");
         if(state.databaseReady){
           resolve();
         }else{
-          let subscription = plux.subscribe("shared", (state) => { 
+          const subscription = plux.subscribe("shared", (state) => { 
             if(state.databaseReady){
               subscription.unsubscribe();
               resolve();
@@ -91,12 +91,12 @@ var shortcuts = (function(){
     },
     // Calculates the percent of items unlocked and read per section.
     'percentComplete': function() {
-      let totals = {'grand': {'available': 0, 'unlocked': 0, 'read': 0}};
-      let state = plux.getState("shared");
+      const totals = {'grand': {'available': 0, 'unlocked': 0, 'read': 0}};
+      const state = plux.getState("shared");
       state.database.content.sections.forEach((section) => {
-        let count = section.items.length;
-        let unlocked = section.items.filter((item) => item.available).length;
-        let read = section.items.filter((item) => item.available && item.read).length;
+        const count = section.items.length;
+        const unlocked = section.items.filter((item) => item.available).length;
+        const read = section.items.filter((item) => item.available && item.read).length;
         totals.grand.available += count;
         totals.grand.unlocked += unlocked;
         totals.grand.read += read;
@@ -114,14 +114,14 @@ var shortcuts = (function(){
     },
     // Retrieves information about an items siblings and parent.
     'itemContext': function(id) {
-      let state = plux.getState("shared");
-      let context = {
+      const state = plux.getState("shared");
+      const context = {
         'prev': {'type': null, 'id': null},
         'next': {'type': null, 'id': null},
         'parent': {'type': 'section', 'id': null, 'name': null}
       };
-      let unreadOnly = state.database.settings.onlyUnread;
-      let filteredLists = {};
+      const unreadOnly = state.database.settings.onlyUnread;
+      const filteredLists = {};
       for(let i = 0; i < state.database.content.sections.length; i++){
         let section = state.database.content.sections[i];
         let filtered = section.items.filter((item) => {
@@ -134,10 +134,10 @@ var shortcuts = (function(){
         filteredLists[section.id] = filtered;
       }
       for(let i = 0; i < state.database.content.sections.length; i++){
-        let section = state.database.content.sections[i];
-        let list = filteredLists[section.id];
+        const section = state.database.content.sections[i];
+        const list = filteredLists[section.id];
         for(let j = 0; j < list.length; j++){
-          let item = list[j];
+          const item = list[j];
           // Find Prev
           if(item.id == id && j == 0){
             context.prev.type = "section";
