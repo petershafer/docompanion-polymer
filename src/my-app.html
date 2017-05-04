@@ -38,6 +38,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <script src="../bower_components/page/page.js"></script>
 <script src="../bower_components/plux/src/plux.js"></script>
+<script src="../bower_components/localforage/dist/localforage.js"></script>
 <script src="../src/app/store.js"></script>
 <script src="../src/app/actions.js"></script>
 <script src="../src/app/shortcuts.js"></script>
@@ -184,7 +185,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
         }
         if(state.database){
-          localStorage.shared = JSON.stringify(state);
+          localforage.setItem('shared', state);
         }
       }
 
@@ -231,18 +232,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.subscription = plux.subscribe("shared", (state) => this.update(state));
         this.databaseReady = false;
 
-        let rawStorage = localStorage.shared;
-        let persistentData;
-        if(rawStorage){
-          persistentData = JSON.parse(localStorage.shared);
-        }
+        localforage.config({
+            name        : 'myApp',
+            version     : 1.0,
+            storeName   : 'myApp',
+            description : 'Stores the shared app state'
+        });
 
-        if(persistentData){
-          actions.restoreDatabase(persistentData);
-        }else{
-          actions.loadDatabase();
-          shortcuts.databaseLoaded().then(() => actions.debugAddAll());
-        }
+        let persistentData;
+        localforage.getItem('shared').then((persistentData) => {
+          if(persistentData){
+            actions.restoreDatabase(persistentData);
+          }else{
+            actions.loadDatabase();
+            shortcuts.databaseLoaded().then(() => actions.debugAddAll());
+          }
+        });
+
         
       }
 
