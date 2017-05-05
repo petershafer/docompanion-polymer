@@ -129,7 +129,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </conditional-class>
             </template>
           </template>
-          <span class="menu debug"><a href="/page/debug">Debug Options</a></span>
+          <template is="dom-if" if="[[ debug ]]">
+            <span class="menu debug"><a href="/page/debug">Debug Options</a></span>
+          </template>
           <dom-if-not if="[[ databaseReady ]]">
             <paper-spinner active></paper-spinner>
           </dom-if-not>
@@ -168,6 +170,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     class MyApp extends Polymer.Element {
 
       static get is() { return 'my-app'; }
+
+      static get properties() {
+        return {
+          debug: {
+            type: Boolean,
+            reflectToAttribute: false
+          },
+          unlocked: {
+            type: Boolean,
+            reflectToAttribute: false
+          }
+        };
+      }
 
       eq(a,b) {
         return a == b;
@@ -245,7 +260,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             actions.restoreDatabase(persistentData);
           }else{
             actions.loadDatabase();
-            shortcuts.databaseLoaded().then(() => actions.debugAddAll());
+            if(this.unlocked){
+              shortcuts.databaseLoaded().then(() => actions.debugAddAll());
+            }
           }
         });
 
