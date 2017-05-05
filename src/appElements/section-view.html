@@ -36,7 +36,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 
     <template is="dom-if" id="content" if="[[ databaseReady ]]">
-
       <div style="float:right; margin:20px;">
         <iron-label>
           <template is="dom-if" if="[[ unreadOnly ]]">
@@ -55,11 +54,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <dom-if-not if="[[ unreadOnly ]]">
         <item-list items="[[ items ]]" filter="available" empty-label="No items available."></item-list>
       </dom-if-not>
+      <div style="float:right; margin-right:20px; margin-bottom: 20px">
+        <small><paper-button on-click="markRead">Mark all as read</paper-button></small>
+      </div>
     </template>
     <dom-if-not if="[[ databaseReady ]]">
       <paper-progress indeterminate></paper-progress>
     </dom-if-not>
-
+    <paper-toast id="allRead" horizontal-align="right">All items have been marked as read!</paper-toast>
   </template>
 
   <script>
@@ -104,8 +106,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             this.unreadOnly = state.database.settings.onlyUnread;
           }
           if(this.section){
-            this.data = shortcuts.getSection(this.section);
-            this.items = this.data.items;
+            this.data = Object.assign({}, shortcuts.getSection(this.section));
+            this.items = [];
+            this.data.items.forEach((item) => this.push('items', Object.assign({}, item)));
             this.percent = (shortcuts.percentComplete())[this.data.id].percentUnlocked;
           }
         });
@@ -128,6 +131,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       isAvailable(item) {
         return item.available;
+      }
+
+      markRead() {
+        actions.markSectionRead(this.section);
+        this.$.allRead.open();
       }
 
 

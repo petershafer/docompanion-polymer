@@ -45,8 +45,10 @@
         for(let i = 0; i < state.database.content.sections.length; i++){
           if(state.database.content.sections[i].id == code){
             for(let j = 0; j < state.database.content.sections[i].items.length; j++){
-              state.database.content.sections[i].items[j].read = true;
-              state.database.content.sections[i].unread--;
+              if(!state.database.content.sections[i].items[j].read){
+                state.database.content.sections[i].items[j].read = true;
+                state.database.content.sections[i].unread--;
+              }
             }
           }
         }

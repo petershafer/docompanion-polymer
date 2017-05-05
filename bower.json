@@ -29,7 +29,8 @@
     "paper-spinner": "2.0-preview",
     "paper-progress": "2.0-preview",
     "localforage": "^1.5.0",
-    "marked-element": "2.0-preview"
+    "marked-element": "2.0-preview",
+    "paper-toast": "2.0-preview"
   },
   "resolutions": {
     "polymer": "^2.0.0-rc.1"
