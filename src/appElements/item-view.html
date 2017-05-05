@@ -84,7 +84,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
 
       <div class="card content">
-        {{data.content}}
+        <marked-element markdown="[[ itemContent(data.content) ]]">
+          <div class="markdown-html"></div>
+        </marked-element>
       </div>
 
     </template>
@@ -128,6 +130,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       bookmarkTag(bookmarkView) {
         return bookmarkView ? "?bookmark" : "";
       }
+
+      itemContent(content){
+        return content.content || content;
+      }
+
     }
 
     window.customElements.define(ItemView.is, ItemView);

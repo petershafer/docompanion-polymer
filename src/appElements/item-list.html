@@ -43,7 +43,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <template is="dom-repeat" id="resultList" items="[[ items ]]" filter="filterFunction" rendered-item-count="{{ allCount }}">
           <a class="paper-item-link" href="/item/[[ item.id ]][[ queryVal ]]" tabindex="-1">
             <div class$="[[ readStyle(item) ]]">
-              [[ item.content ]]
+              [[ itemTitle(item.content) ]]
             </div>
           </a>
       </template>
@@ -109,6 +109,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }else{
           return item.read ? "item dimmed" : "item";
         }
+      }
+
+      itemTitle(content) {
+        return content.title || content;
       }
 
       _queryChanged(newVal){
