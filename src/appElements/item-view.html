@@ -22,6 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       paper-button.green {
         background-color: var(--paper-grey-400);
         color: white;
+        min-width: 0px;
       }
       paper-button.green[active] {
         background-color: var(--paper-blue-grey-600);
@@ -31,6 +32,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
         width: 100%;
       }
+
+      .nostyle {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .section {
+        background-color: var(--app-primary-color);
+        color: white;
+      }
+
+      .content {
+        clear: both;
+        margin-top: 65px;
+      }
+
+      a iron-icon {
+        /*--iron-icon-height: 32px;
+        --iron-icon-width: 32px;*/
+      }
+
+      .nav {
+        padding: 10px 15px;
+      }
+
     </style>
 
 
@@ -38,36 +64,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       <div style="float: left;">
         <dom-if-not if="[[ bookmarkView ]]">
-          <a href="/section/[[ data.parent.id ]]"><h1>Return to [[ data.parent.name ]]</h1></a>
+          <template is="dom-if" if="[[ context.prev.id ]]">
+            <a href="/[[ context.prev.type ]]/[[ context.prev.id ]]" title="previous item" class="nav smallerCircle"><iron-icon icon="chevron-left"></iron-icon></a>
+          </template>
+          <a href="/section/[[ data.parent.id ]]" class="nostyle"><paper-button class="section">[[ data.parent.name ]]</paper-button></a>
+          <template is="dom-if" if="[[ context.next.id ]]">
+            <a href="/[[ context.next.type ]]/[[ context.next.id ]]" title="next item" class="nav smallerCircle"><iron-icon icon="chevron-right"></iron-icon></a>
+          </template>
         </dom-if-not>
         <template is="dom-if" if="[[ bookmarkView ]]">
           <a href="/page/bookmarks"><h1>Return to Bookmarks</h1></a>
         </template>
       </div>
+
       <div style="float: right;">
         <paper-button toggles class="green" active="{{ bookmarked }}"  on-change="_bookmarkUpdate">
           <iron-icon icon="icons:bookmark-border"></iron-icon>
-          Bookmark
         </paper-button>
       </div>
 
-      <div class="card" style="clear:both;">
+      <div class="card content">
         {{data.content}}
       </div>
-
-
-      <dom-if-not if="[[ bookmarkView ]]">
-        <template is="dom-if" if="[[ context.prev.id ]]">
-          <div style="float: left;">
-            <a href="/[[ context.prev.type ]]/[[ context.prev.id ]]"><h1>Go To Previous Item</h1></a>
-          </div>
-        </template>
-        <template is="dom-if" if="[[ context.next.id ]]">
-          <div style="float: right;">
-            <a href="/[[ context.next.type ]]/[[ context.next.id ]]"><h1>Go To Next Item</h1></a>
-          </div>
-        </template>
-        </dom-if-not>
 
     </template>
 
