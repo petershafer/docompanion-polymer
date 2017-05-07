@@ -63,7 +63,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <template is="dom-if" if="[[ databaseReady ]]">
 
       <div style="float: left;">
-        <dom-if-not if="[[ bookmarkView ]]">
+        <dom-if-not when="[[ bookmarkView ]]">
           <template is="dom-if" if="[[ context.prev.id ]]">
             <a href="/[[ context.prev.type ]]/[[ context.prev.id ]]" title="previous item" class="nav smallerCircle"><iron-icon icon="chevron-left"></iron-icon></a>
           </template>
@@ -91,7 +91,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </template>
 
-    <dom-if-not if="[[ databaseReady ]]">
+    <dom-if-not when="[[ databaseReady ]]">
       <paper-progress indeterminate></paper-progress>
     </dom-if-not>
     

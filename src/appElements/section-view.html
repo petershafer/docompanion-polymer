@@ -41,7 +41,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <template is="dom-if" if="[[ unreadOnly ]]">
             <span>Unread Only</span>
           </template>
-          <dom-if-not if="[[ unreadOnly ]]">
+          <dom-if-not when="[[ unreadOnly ]]">
             <span>All Items</span>
           </dom-if-not>
           <paper-toggle-button checked="{{ unreadOnly }}" id="unreadToggle" on-change="_unreadFilterUpdate"></paper-toggle-button>
@@ -51,14 +51,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <template is="dom-if" if="[[ unreadOnly ]]">
         <item-list items="[[ items ]]" filter="unread" empty-label="All items read!"></item-list>
       </template>
-      <dom-if-not if="[[ unreadOnly ]]">
+      <dom-if-not when="[[ unreadOnly ]]">
         <item-list items="[[ items ]]" filter="available" empty-label="No items available."></item-list>
       </dom-if-not>
       <div style="float:right; margin-right:20px; margin-bottom: 20px">
         <small><paper-button on-click="markRead">Mark all as read</paper-button></small>
       </div>
     </template>
-    <dom-if-not if="[[ databaseReady ]]">
+    <dom-if-not when="[[ databaseReady ]]">
       <paper-progress indeterminate></paper-progress>
     </dom-if-not>
     <paper-toast id="allRead" horizontal-align="right">All items have been marked as read!</paper-toast>

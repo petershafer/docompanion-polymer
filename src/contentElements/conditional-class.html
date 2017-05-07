@@ -21,7 +21,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
 
-    <div class$="[[ class ]]">
+    <div class$="[[ className ]]">
       <slot></slot>
     </div>
 
@@ -33,7 +33,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       static get properties() {
         return {
-          "if": {
+          "when": {
             type: String,
             observer: 'update',
             reflectToAttribute: true,
@@ -52,10 +52,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       evaluate(){
-        if(this.if == this.is){
-          this.class = this.then;
+        if(this.when == this.is){
+          this.className = this.then;
         }else{
-          this.class = "";
+          this.className = "";
         }
       }
 

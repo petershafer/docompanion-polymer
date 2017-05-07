@@ -116,15 +116,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <app-drawer id="drawer" slot="drawer">
         <app-toolbar>Menu</app-toolbar>
         <iron-selector class="drawer-list" role="navigation">
-          <conditional-class if="[[ handler ]]" is="cover" then="selected">
+          <conditional-class when="[[ handler ]]" is="cover" then="selected">
             <a name="cover-page" href="/"><iron-icon icon="icons:home"></iron-icon> Home</a>
           </conditional-class>
-          <conditional-class if="[[ page ]]" is="bookmarks" then="selected">
+          <conditional-class when="[[ page ]]" is="bookmarks" then="selected">
             <a name="bookmarks" href="/page/bookmarks"><iron-icon icon="icons:bookmark-border"></iron-icon> Bookmarks</a>
           </conditional-class>
           <template is="dom-if" if="[[ databaseReady ]]">
             <template is="dom-repeat" items="[[ sections ]]">
-              <conditional-class if="[[ section ]]" is="[[ item.id ]]" then="selected">
+              <conditional-class when="[[ section ]]" is="[[ item.id ]]" then="selected">
                 <div style="display:inline-block">
                   <span class="menu"><a href="/section/[[ item.id ]]">[[ item.name ]]</a> <paper-badge label="[[ item.unread ]]"></paper-badge></span>
                 </div>
@@ -134,7 +134,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <template is="dom-if" if="[[ debug ]]">
             <span class="menu debug"><a href="/page/debug">Debug Options</a></span>
           </template>
-          <dom-if-not if="[[ databaseReady ]]">
+          <dom-if-not when="[[ databaseReady ]]">
             <paper-spinner active></paper-spinner>
           </dom-if-not>
         </iron-selector>
